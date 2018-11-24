@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioManager.Services.Impl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudioManager.Database", "StudioManager.Database\StudioManager.Database.csproj", "{E572F0E7-9F74-4627-8439-C209B6343D14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudioManager.Public", "StudioManager.Public\StudioManager.Public.csproj", "{37A7A774-04A9-4FD9-8D8A-969A7A541E0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E572F0E7-9F74-4627-8439-C209B6343D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E572F0E7-9F74-4627-8439-C209B6343D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E572F0E7-9F74-4627-8439-C209B6343D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A7A774-04A9-4FD9-8D8A-969A7A541E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A7A774-04A9-4FD9-8D8A-969A7A541E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A7A774-04A9-4FD9-8D8A-969A7A541E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A7A774-04A9-4FD9-8D8A-969A7A541E0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
