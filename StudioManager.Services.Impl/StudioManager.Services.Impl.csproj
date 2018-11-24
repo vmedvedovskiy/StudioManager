@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\StudioManager.Database\StudioManager.Database.csproj" />
+    <ProjectReference Include="..\StudioManager.Database\StudioManager.Database.csproj" />
     <ProjectReference Include="..\StudioManager.Services\StudioManager.Services.csproj" />
   </ItemGroup>
 
