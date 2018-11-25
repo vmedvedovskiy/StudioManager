@@ -9,7 +9,7 @@ using StudioManager.Services;
 
 namespace StudioManager.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
     {
