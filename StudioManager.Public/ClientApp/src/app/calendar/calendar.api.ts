@@ -10,7 +10,6 @@ export class BookingData {
 
 @Injectable()
 export class CalendarApi {
-    private now = new Date();
 
     constructor(private readonly client: HttpClient) {
 

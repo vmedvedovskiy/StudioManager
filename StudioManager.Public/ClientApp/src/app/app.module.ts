@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
 
-
 @NgModule({
     declarations: [
         AppComponent

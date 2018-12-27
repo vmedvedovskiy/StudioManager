@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CalendarComponent } from './calendar.component';
-import { CalendarApi } from './calendar.api';
 import { RouterModule } from '@angular/router';
-
 import { CalendarModule as CalendarLibModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
-import '../../../node_modules/angular-calendar/css/angular-calendar.css';
+import { CalendarComponent } from './calendar.component';
+import { CalendarApi } from './calendar.api';
+import { CalendarResolver } from './calendar.resolver'
 
 @NgModule({
     declarations: [
@@ -16,7 +15,10 @@ import '../../../node_modules/angular-calendar/css/angular-calendar.css';
         RouterModule.forChild([
             {
                 path: 'calendar',
-                component: CalendarComponent
+                component: CalendarComponent,
+                resolve: {
+                    events: CalendarResolver
+                }
             }
         ]),
         CalendarLibModule.forRoot({
@@ -25,7 +27,8 @@ import '../../../node_modules/angular-calendar/css/angular-calendar.css';
         }),
     ],
     providers: [
-        CalendarApi
+        CalendarApi,
+        CalendarResolver
     ]
 })
 export class CalendarModule {
