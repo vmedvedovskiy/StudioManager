@@ -1,5 +1,6 @@
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs'
 
 export class BookingData {
     Id: string;
@@ -7,7 +8,10 @@ export class BookingData {
     To: Date;
 }
 
+@Injectable()
 export class CalendarApi {
+    private now = new Date();
+
     constructor(private readonly client: HttpClient) {
 
     }

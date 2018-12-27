@@ -34,7 +34,7 @@ namespace StudioManager.Public.Controllers
 
                 this.Request.Headers.ToList()
                     .ForEach(_ 
-                        => message.Headers.Add(_.Key, string.Join(',' _.Value)));
+                        => message.Headers.Add(_.Key, string.Join(',', _.Value)));
 
                 var response = await client.SendAsync(
                     message,
@@ -46,7 +46,8 @@ namespace StudioManager.Public.Controllers
                         .CopyToAsync(sw.BaseStream);
 
                     sw.Close();
-                
+
+                }
 
                 return this.StatusCode((int)response.StatusCode);
             }
