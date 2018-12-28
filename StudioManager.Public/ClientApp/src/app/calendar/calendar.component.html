@@ -1,21 +1,27 @@
 <mat-button-toggle-group multiple="false"
+                         [value]="view"
                          (change)="onCalendarViewChanged($event)">
-    <mat-button-toggle value="month">Month</mat-button-toggle>
-    <mat-button-toggle value="day">Day</mat-button-toggle>
-    <mat-button-toggle value="week">Week</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Month">Month</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Day">Day</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Week">Week</mat-button-toggle>
 </mat-button-toggle-group>
 
-<ng-container [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="month"
+<ng-container [ngSwitch]="selectedView">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
                              [viewDate]="now"
+                             [refresh]="refresh"
                              [events]="events">
     </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="week"
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
                             [viewDate]="now"
+                            [refresh]="refresh"
                             [events]="events">
     </mwl-calendar-week-view>
-    <mwl-calendar-day-view *ngSwitchCase="day"
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
                            [viewDate]="now"
+                           [refresh]="refresh"
                            [events]="events">
     </mwl-calendar-day-view>
+
+    <div *ngSwitchDefault>Shit</div>
 </ng-container>

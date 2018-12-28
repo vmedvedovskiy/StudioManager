@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookingData } from './calendar.api'
 import { CalendarView } from 'angular-calendar';
+import { Subject } from 'rxjs';
 
 class CalendarEvent {
     constructor(
@@ -19,9 +20,12 @@ export class CalendarComponent {
 
     private events: CalendarEvent[] = [];
     private now = new Date();
-    private view: CalendarView;
+    private selectedView: CalendarView = CalendarView.Week;
+    private refresh: Subject<any> = new Subject();
+    private CalendarView = CalendarView;
 
     constructor(private readonly route: ActivatedRoute) {
+
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
@@ -33,6 +37,6 @@ export class CalendarComponent {
     }
 
     onCalendarViewChanged($event) {
-        this.view = $event.value;
+        this.selectedView = $event.value;
     }
 }
