@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 
 export class BookingData {
-    Id: string;
-    From: Date;
-    To: Date;
+    id: string;
+    from: string;
+    to: string;
 }
 
 @Injectable()

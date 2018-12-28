@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 
 class CalendarEvent {
     constructor(
-        start: Date,
-        end: Date) {
+        private start: Date,
+        private end: Date) {
     }
 }
 
@@ -17,15 +17,16 @@ class CalendarEvent {
 export class CalendarComponent {
 
     private events: CalendarEvent[] = [];
+    private now = new Date();
 
     constructor(private readonly route: ActivatedRoute) {
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
             this.events = data.events
-                .map(_ => new CalendarEvent(_.From, _.To));
+                .map(_ => new CalendarEvent(
+                    new Date(_.from),
+                    new Date(_.to)));
         });
     }
-
-    private now = new Date();
 }
