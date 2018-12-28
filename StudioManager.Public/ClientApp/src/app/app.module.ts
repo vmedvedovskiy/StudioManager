@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { CalendarModule as AppCalendarModule } from './calendar/calendar.module'
             path: '',
             redirectTo: '/calendar',
             pathMatch: 'full'
-        }])
+        }]),
+        BrowserAnimationsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
