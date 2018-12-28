@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 
 namespace StudioManager.Public.Controllers
 {
@@ -26,11 +27,16 @@ namespace StudioManager.Public.Controllers
         [HttpDelete]
         public async Task<IActionResult> Proxy(string route)
         {
-            using (var client = this.clientFactory.CreateClient())
+            using (var client = this.clientFactory.CreateClient("api"))
             {
+                var uri = new UriBuilder(client.BaseAddress);
+
+                uri.Path += ("api/" + route);
+                uri.Query = this.Request.QueryString.Value.Trim('?');
+
                 var message = new HttpRequestMessage(
                     new HttpMethod(this.Request.Method),
-                    route);
+                    uri.Uri);
 
                 this.Request.Headers.ToList()
                     .ForEach(_ 
@@ -40,16 +46,20 @@ namespace StudioManager.Public.Controllers
                     message,
                     HttpCompletionOption.ResponseHeadersRead);
 
-                using (var sw = new StreamWriter(this.Response.Body))
-                {
-                    await (await response.Content.ReadAsStreamAsync())
-                        .CopyToAsync(sw.BaseStream);
+                this.Response.StatusCode = (int)response.StatusCode;
+                response.Headers
+                    .Concat(response.Content.Headers)
+                    .ToList()
+                    .ForEach(_ => this.Response.Headers.Add(
+                        _.Key, 
+                        new StringValues(_.Value.ToArray())));
 
-                    sw.Close();
+                var responseContent = await response.Content.ReadAsStreamAsync();
 
-                }
+                await responseContent
+                        .CopyToAsync(this.Response.Body);
 
-                return this.StatusCode((int)response.StatusCode);
+                return new EmptyResult();
             }
         }
     }

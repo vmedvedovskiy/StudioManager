@@ -27,10 +27,12 @@ namespace StudioManager.Public
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddHttpClient<HttpClient>(_ => 
-            {
-                _.BaseAddress = new Uri(this.Configuration["ApiBaseUrl"]);
-            });
+            services.AddHttpClient(
+                "api",
+                _ =>
+                {
+                    _.BaseAddress = new Uri(this.Configuration["ApiBaseUrl"]);
+                });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

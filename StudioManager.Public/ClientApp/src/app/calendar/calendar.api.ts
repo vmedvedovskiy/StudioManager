@@ -20,8 +20,8 @@ export class CalendarApi {
             '/api/v1/booking',
             {
                 params: {
-                    'from': from.toUTCString(),
-                    'to': to.toUTCString()
+                    'from': from.toISOString(),
+                    'to': to.toISOString()
                 }
             });
     }
