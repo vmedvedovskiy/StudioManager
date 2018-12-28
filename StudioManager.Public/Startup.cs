@@ -1,11 +1,11 @@
 using System;
-using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StudioManager.Public.Middleware;
 
 namespace StudioManager.Public
 {
@@ -33,6 +33,8 @@ namespace StudioManager.Public
                 {
                     _.BaseAddress = new Uri(this.Configuration["ApiBaseUrl"]);
                 });
+
+            services.AddTransient<ApiProxyMiddleware>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -50,13 +52,7 @@ namespace StudioManager.Public
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseApiProxyMiddleware();
 
             app.UseSpa(spa =>
             {
