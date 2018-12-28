@@ -4,7 +4,8 @@ import {
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 } from '@angular/router';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 import { CalendarApi, BookingData } from './calendar.api';
 
@@ -17,21 +18,10 @@ export class CalendarResolver implements Resolve<BookingData[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
         : Observable<BookingData[]> {
-        const now = new Date();
-        const startOfMonth = new Date(
-            now.getFullYear(),
-            now.getMonth() - 1,
-            1);
 
-        const endOfMonth = new Date(
-            now.getFullYear(),
-            now.getMonth() - 1,
-            this.daysInMonth(now.getMonth(), now.getFullYear()));
+        const startOfMonth = moment().startOf("month");
+        const endOfMonth = moment().endOf("month");
 
         return this.api.loadAll(startOfMonth, endOfMonth);
-    }
-
-    private daysInMonth(month, year) {
-        return new Date(year, month, 0).getDate();
     }
 }

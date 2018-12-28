@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookingData } from './calendar.api'
-import { map } from 'rxjs/operators';
 
 class CalendarEvent {
     constructor(
