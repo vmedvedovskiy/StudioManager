@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
             redirectTo: '/calendar',
             pathMatch: 'full'
         }]),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSidenavModule
     ],
     providers: [],
     bootstrap: [AppComponent]
