@@ -12,7 +12,6 @@
                              [viewDate]="viewDate"
                              [refresh]="refresh"
                              locale="ru"
-                             [weekStartsOn]="weekStartsOn"
                              [events]="events"
                              (dayClicked)="onDayClicked($event)">
     </mwl-calendar-month-view>
@@ -23,6 +22,7 @@
                            [events]="events"
                            [dayStartHour]="9"
                            [dayEndHour]="22"
-                           [hourSegments]="1">
+                           [hourSegments]="1"
+                           (hourSegmentClicked)="onRequestReserve($event)">
     </mwl-calendar-day-view>
 </ng-container>

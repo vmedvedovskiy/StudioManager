@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import * as moment from 'moment';
 
 import { AppComponent } from './app.component';
 import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
@@ -18,6 +19,13 @@ registerLocaleData(localeRu)
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/translations/');
 }
+
+moment.updateLocale('ru', {
+    week: {
+        dow: 1,
+        doy: 0
+    }
+});
 
 @NgModule({
     declarations: [

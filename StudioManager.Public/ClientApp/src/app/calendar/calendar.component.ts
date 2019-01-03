@@ -6,10 +6,12 @@ import { Subject } from 'rxjs';
 import { DateFormatter } from './date.formatter';
 import { BookingData } from './calendar.api'
 
+import * as moment from 'moment';
+
 class CalendarEvent {
     constructor(
-        private start: Date,
-        private end: Date) {
+        private start: moment.Moment,
+        private end: moment.Moment) {
     }
 }
 
@@ -26,6 +28,7 @@ class CalendarEvent {
 })
 export class CalendarComponent {
 
+    private eventsInternal: CalendarEvent[] = [];
     private events: CalendarEvent[] = [];
     private viewDate = new Date();
     private selectedView: CalendarView = CalendarView.Month;
@@ -38,10 +41,10 @@ export class CalendarComponent {
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
-            this.events = data.events
+            this.eventsInternal = data.events
                 .map(_ => new CalendarEvent(
-                    new Date(_.from),
-                    new Date(_.to)));
+                    moment(_.from),
+                    moment(_.to)));
         });
     }
 
@@ -52,5 +55,11 @@ export class CalendarComponent {
     onDayClicked($event) {
         this.viewDate = $event.day.date;
         this.selectedView = CalendarView.Day;
+    }
+
+    onRequestReserve($event: {
+        date: Date
+    }) {
+
     }
 }
