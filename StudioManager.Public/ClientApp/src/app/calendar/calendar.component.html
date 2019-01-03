@@ -1,9 +1,9 @@
 <mat-button-toggle-group multiple="false"
                          [value]="view"
                          (change)="onCalendarViewChanged($event)">
-    <mat-button-toggle [value]="CalendarView.Month">Month</mat-button-toggle>
-    <mat-button-toggle [value]="CalendarView.Day">Day</mat-button-toggle>
-    <mat-button-toggle [value]="CalendarView.Week">Week</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Month">{{ "Month" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Day">{{ "Day" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Week">{{ "Week" | translate }}</mat-button-toggle>
 </mat-button-toggle-group>
 
 <ng-container [ngSwitch]="selectedView">

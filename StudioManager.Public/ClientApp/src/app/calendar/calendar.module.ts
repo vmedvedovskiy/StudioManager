@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common'
 import { CalendarModule as CalendarLibModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { CalendarComponent } from './calendar.component';
 import { CalendarApi } from './calendar.api';
@@ -28,7 +29,8 @@ import { CalendarResolver } from './calendar.resolver'
             useFactory: adapterFactory
         }),
         MatButtonToggleModule,
-        CommonModule
+        CommonModule,
+        TranslateModule
     ],
     providers: [
         CalendarApi,
