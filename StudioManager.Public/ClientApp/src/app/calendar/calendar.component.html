@@ -1,30 +1,28 @@
 <mat-button-toggle-group multiple="false"
                          [value]="selectedView"
                          (change)="onCalendarViewChanged($event)">
-    <mat-button-toggle [value]="CalendarView.Month">{{ "Month" | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="CalendarView.Day">{{ "Day" | translate }}</mat-button-toggle>
-    <mat-button-toggle [value]="CalendarView.Week">{{ "Week" | translate }}</mat-button-toggle>
+    <mat-button-toggle [value]="CalendarView.Month">
+        <i class="fa fa-chevron-left"></i>
+        {{ viewDate | date: 'MMMM' }}
+    </mat-button-toggle>
 </mat-button-toggle-group>
 
 <ng-container [ngSwitch]="selectedView">
     <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
-                             [viewDate]="now"
+                             [viewDate]="viewDate"
                              [refresh]="refresh"
                              locale="ru"
                              [weekStartsOn]="weekStartsOn"
-                             [events]="events">
+                             [events]="events"
+                             (dayClicked)="onDayClicked($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
-                            [viewDate]="now"
-                            [refresh]="refresh"
-                            locale="ru"
-                            [weekStartsOn]="weekStartsOn"
-                            [events]="events">
-    </mwl-calendar-week-view>
     <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
-                           [viewDate]="now"
+                           [viewDate]="viewDate"
                            [refresh]="refresh"
                            locale="ru"
-                           [events]="events">
+                           [events]="events"
+                           [dayStartHour]="9"
+                           [dayEndHour]="22"
+                           [hourSegments]="1">
     </mwl-calendar-day-view>
 </ng-container>

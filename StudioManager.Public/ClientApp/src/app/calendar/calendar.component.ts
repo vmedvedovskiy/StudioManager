@@ -1,8 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookingData } from './calendar.api'
-import { CalendarView, DAYS_OF_WEEK } from 'angular-calendar';
+import { CalendarView, DAYS_OF_WEEK, CalendarDateFormatter } from 'angular-calendar';
 import { Subject } from 'rxjs';
+
+import { DateFormatter } from './date.formatter';
+import { BookingData } from './calendar.api'
 
 class CalendarEvent {
     constructor(
@@ -14,16 +16,22 @@ class CalendarEvent {
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: CalendarDateFormatter,
+            useClass: DateFormatter
+        }
+    ]
 })
 export class CalendarComponent {
 
     private events: CalendarEvent[] = [];
-    private now = new Date();
-    private selectedView: CalendarView = CalendarView.Week;
+    private viewDate = new Date();
+    private selectedView: CalendarView = CalendarView.Month;
     private refresh: Subject<any> = new Subject();
     private CalendarView = CalendarView;
-    weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+    private weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
     constructor(private readonly route: ActivatedRoute) {
 
@@ -39,5 +47,10 @@ export class CalendarComponent {
 
     onCalendarViewChanged($event) {
         this.selectedView = $event.value;
+    }
+
+    onDayClicked($event) {
+        this.viewDate = $event.day.date;
+        this.selectedView = CalendarView.Day;
     }
 }

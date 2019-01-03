@@ -7,7 +7,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -35,7 +34,6 @@ export function HttpLoaderFactory(http: HttpClient) {
             pathMatch: 'full'
         }]),
         BrowserAnimationsModule,
-        MatSidenavModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
