@@ -10,16 +10,21 @@
     <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
                              [viewDate]="now"
                              [refresh]="refresh"
+                             locale="ru"
+                             [weekStartsOn]="weekStartsOn"
                              [events]="events">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
                             [viewDate]="now"
                             [refresh]="refresh"
+                            locale="ru"
+                            [weekStartsOn]="weekStartsOn"
                             [events]="events">
     </mwl-calendar-week-view>
     <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
                            [viewDate]="now"
                            [refresh]="refresh"
+                           locale="ru"
                            [events]="events">
     </mwl-calendar-day-view>
 </ng-container>

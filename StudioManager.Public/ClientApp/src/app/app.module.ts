@@ -1,15 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import localeRu from '@angular/common/locales/ru';
+import { registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './app.component';
-import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { AppComponent } from './app.component';
+import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
+
+registerLocaleData(localeRu)
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/translations/');

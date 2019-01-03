@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookingData } from './calendar.api'
-import { CalendarView } from 'angular-calendar';
+import { CalendarView, DAYS_OF_WEEK } from 'angular-calendar';
 import { Subject } from 'rxjs';
 
 class CalendarEvent {
@@ -23,6 +23,7 @@ export class CalendarComponent {
     private selectedView: CalendarView = CalendarView.Week;
     private refresh: Subject<any> = new Subject();
     private CalendarView = CalendarView;
+    weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
     constructor(private readonly route: ActivatedRoute) {
 
