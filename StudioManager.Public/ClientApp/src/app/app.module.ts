@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import localeRu from '@angular/common/locales/ru';
 import { registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -42,7 +42,10 @@ export function HttpLoaderFactory(http: HttpClient) {
             }
         })
     ],
-    providers: [],
+    providers: [{
+        provide: LOCALE_ID,
+        useValue: 'ru'
+    }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
