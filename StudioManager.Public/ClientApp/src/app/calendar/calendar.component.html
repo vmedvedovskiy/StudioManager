@@ -1,5 +1,5 @@
 <mat-button-toggle-group multiple="false"
-                         [value]="view"
+                         [value]="selectedView"
                          (change)="onCalendarViewChanged($event)">
     <mat-button-toggle [value]="CalendarView.Month">{{ "Month" | translate }}</mat-button-toggle>
     <mat-button-toggle [value]="CalendarView.Day">{{ "Day" | translate }}</mat-button-toggle>
