@@ -1,5 +1,9 @@
 {
     "Month": "Месяц",
     "Week": "Неделя",
-    "Day":  "День"
+    "Day": "День",
+    "CreateReserveTitle": "Забронировать время",
+    "Back": "Назад",
+    "ConfirmReserve": "Создать заявку",
+    "ReserveStartDate":  "Начало"
 }

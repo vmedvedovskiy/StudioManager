@@ -4,6 +4,9 @@ import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
 
 import { DateFormatter } from './date.formatter';
 import { BookingData } from './calendar.api'
+import { CreateReserveComponent, NewReserveModel }
+    from './create-reserve/create-reserve.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import * as moment from 'moment';
 
@@ -29,10 +32,13 @@ export class CalendarComponent {
     
     private events: CalendarEvent[] = [];
     private viewDate = moment().toDate();
-    private selectedView: CalendarView = CalendarView.Month;
+    private selectedView = CalendarView.Month;
     private CalendarView = CalendarView;
+    private reserveDialog: MatDialogRef<CreateReserveComponent, NewReserveModel>;
 
-    constructor(private readonly route: ActivatedRoute) {
+    constructor(
+        private readonly route: ActivatedRoute,
+        private readonly dialogService: MatDialog) {
 
         this.route.data.subscribe((data: {
             events: BookingData[]
@@ -62,5 +68,10 @@ export class CalendarComponent {
                 eventDate.isBetween(_.start, _.end))) {
             return;
         }
+
+        this.reserveDialog = this.dialogService
+            .open(CreateReserveComponent, {
+                data: moment($event.date)
+            });
     }
 }

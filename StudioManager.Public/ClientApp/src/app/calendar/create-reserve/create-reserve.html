@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{ 'CreateReserveTitle' | translate }}</h1>
+<h3 mat-dialog-title>{{ data | date: 'medium' }}</h3>
+<div mat-dialog-content>
+    <mat-form-field>
+        <input matInput [matDatepicker]="startDate" [placeholder]="'ReserveStartDate' | translate">
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button cdkFocusInitial>{{ 'ConfirmReserve' | translate }}</button>
+    <button mat-button (click)="onClose()">{{ 'Back' | translate }}</button>
+</div>

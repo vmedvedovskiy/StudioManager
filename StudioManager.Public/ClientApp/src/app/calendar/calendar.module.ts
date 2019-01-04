@@ -16,6 +16,8 @@ import { CalendarComponent } from './calendar.component';
 import { CalendarApi } from './calendar.api';
 import { CalendarResolver } from './calendar.resolver'
 
+import { CreateReserveModule } from './create-reserve/create-reserve.module';
+
 export function momentAdapterFactory() {
     return adapterFactory(moment);
 }
@@ -40,7 +42,8 @@ export function momentAdapterFactory() {
         }),
         MatButtonToggleModule,
         CommonModule,
-        TranslateModule
+        TranslateModule,
+        CreateReserveModule
     ],
     providers: [
         CalendarApi,
