@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'
+import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { TranslateModule } from '@ngx-translate/core';
+import { DpDatePickerModule } from 'ng2-date-picker';
 
 import { CreateReserveComponent } from './create-reserve.component';
 
@@ -15,12 +15,12 @@ import { CreateReserveComponent } from './create-reserve.component';
         CreateReserveComponent
     ],
     imports: [
+        FormsModule,
         MatDialogModule,
         MatButtonModule,
         CommonModule,
         TranslateModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
+        DpDatePickerModule,
         MatFormFieldModule,
         MatInputModule
     ],

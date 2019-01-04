@@ -4,6 +4,9 @@
     "Day": "День",
     "CreateReserveTitle": "Забронировать время",
     "Back": "Назад",
-    "ConfirmReserve": "Создать заявку",
-    "ReserveStartDate":  "Начало"
+    "ConfirmReserve": "Отправить заявку",
+    "ReserveStartDate": "Начало",
+    "ReserveEndDate": "Конец",
+    "PhoneNumberPlaceholder": "Укажите ваш номер телефона",
+    "ReserveComment":  "Комментарий"
 }
