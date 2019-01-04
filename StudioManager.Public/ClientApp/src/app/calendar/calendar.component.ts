@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CalendarView, DAYS_OF_WEEK, CalendarDateFormatter } from 'angular-calendar';
-import { Subject } from 'rxjs';
+import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
 
 import { DateFormatter } from './date.formatter';
 import { BookingData } from './calendar.api'
@@ -10,8 +9,8 @@ import * as moment from 'moment';
 
 class CalendarEvent {
     constructor(
-        private start: moment.Moment,
-        private end: moment.Moment) {
+        public start: Date,
+        public end: Date) {
     }
 }
 
@@ -27,24 +26,21 @@ class CalendarEvent {
     ]
 })
 export class CalendarComponent {
-
-    private eventsInternal: CalendarEvent[] = [];
+    
     private events: CalendarEvent[] = [];
-    private viewDate = new Date();
+    private viewDate = moment().toDate();
     private selectedView: CalendarView = CalendarView.Month;
-    private refresh: Subject<any> = new Subject();
     private CalendarView = CalendarView;
-    private weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
     constructor(private readonly route: ActivatedRoute) {
 
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
-            this.eventsInternal = data.events
+            this.events = data.events
                 .map(_ => new CalendarEvent(
-                    moment(_.from),
-                    moment(_.to)));
+                    moment(_.from).toDate(),
+                    moment(_.to).toDate()));
         });
     }
 
@@ -60,6 +56,11 @@ export class CalendarComponent {
     onRequestReserve($event: {
         date: Date
     }) {
+        const eventDate = moment($event.date);
 
+        if (this.events.some(_ =>
+                eventDate.isBetween(_.start, _.end))) {
+            return;
+        }
     }
 }

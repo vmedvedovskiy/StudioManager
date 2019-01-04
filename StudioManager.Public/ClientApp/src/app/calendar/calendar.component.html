@@ -1,4 +1,5 @@
 <mat-button-toggle-group multiple="false"
+                         *ngIf="selectedView !== CalendarView.Month"
                          [value]="selectedView"
                          (change)="onCalendarViewChanged($event)">
     <mat-button-toggle [value]="CalendarView.Month">
@@ -10,14 +11,12 @@
 <ng-container [ngSwitch]="selectedView">
     <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
                              [viewDate]="viewDate"
-                             [refresh]="refresh"
                              locale="ru"
                              [events]="events"
                              (dayClicked)="onDayClicked($event)">
     </mwl-calendar-month-view>
     <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
                            [viewDate]="viewDate"
-                           [refresh]="refresh"
                            locale="ru"
                            [events]="events"
                            [dayStartHour]="9"
