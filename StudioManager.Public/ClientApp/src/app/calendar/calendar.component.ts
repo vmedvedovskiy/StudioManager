@@ -73,5 +73,9 @@ export class CalendarComponent {
             .open(CreateReserveComponent, {
                 data: moment($event.date)
             });
+
+        this.reserveDialog
+            .afterClosed()
+            .subscribe(_ => console.log`Result: ${_}`);
     }
 }

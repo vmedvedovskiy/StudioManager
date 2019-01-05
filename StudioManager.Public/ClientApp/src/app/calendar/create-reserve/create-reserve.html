@@ -45,6 +45,10 @@
     </mat-form-field>
 </form>
 <div mat-dialog-actions>
-    <button mat-button cdkFocusInitial>{{ 'ConfirmReserve' | translate }}</button>
-    <button mat-button (click)="onClose()">{{ 'Back' | translate }}</button>
+    <button
+            mat-button
+            (click)="onReserveConfirm()"
+            cdkFocusInitial>{{ 'ConfirmReserve' | translate }}</button>
+    <button mat-button
+            mat-dialog-close>{{ 'Back' | translate }}</button>
 </div>
