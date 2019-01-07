@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +13,7 @@ namespace StudioManager.Public.Middleware
 {
     public class ApiProxyMiddleware : IMiddleware
     {
+        private const int BufferSize = 81920;
         private readonly IHttpClientFactory clientFactory;
 
         public ApiProxyMiddleware(IHttpClientFactory clientFactory)
@@ -23,23 +27,39 @@ namespace StudioManager.Public.Middleware
         {
             using (var client = this.clientFactory.CreateClient("api"))
             {
+                var request = context.Request;
+
                 var uri = new UriBuilder(client.BaseAddress)
                 {
-                    Query = context.Request.QueryString.Value.Trim('?')
+                    Query = request.QueryString.Value.Trim('?')
                 };
 
-                uri.Path += context.Request.PathBase
-                    .Add(context.Request.Path)
+                uri.Path += request.PathBase
+                    .Add(request.Path)
                     .ToUriComponent();
 
                 var message = new HttpRequestMessage(
-                    new HttpMethod(context.Request.Method),
+                    new HttpMethod(request.Method),
                     uri.Uri);
 
-                context.Request.Headers
+                request.Headers
                     .ToList()
                     .ForEach(_ =>
-                        message.Headers.Add(_.Key, string.Join(',', _.Value)));
+                        message.Headers.TryAddWithoutValidation(_.Key, string.Join(',', _.Value)));
+
+                if (HasBody(request))
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await request.Body.CopyToAsync(stream)
+                            .ConfigureAwait(false);
+
+                        message.Content = new StringContent(
+                            Encoding.UTF8.GetString(stream.ToArray()),
+                            Encoding.UTF8,
+                            request.ContentType);
+                    }
+                }
 
                 var apiResponse = await client.SendAsync(
                     message,
@@ -61,13 +81,20 @@ namespace StudioManager.Public.Middleware
                     .ConfigureAwait(false))
                 {
                     await responseStream.CopyToAsync(
-                        context.Response.Body, 
-                        81920, 
+                        context.Response.Body,
+                        BufferSize,
                         context.RequestAborted)
                     .ConfigureAwait(false);
                 }
             }
         }
+
+        private static bool HasBody(HttpRequest request) => StringComparer.InvariantCultureIgnoreCase
+                            .Compare(request.Method, HttpMethod.Post.Method) == 0
+                            || StringComparer.InvariantCultureIgnoreCase
+                            .Compare(request.Method, HttpMethod.Put.Method) == 0
+                            || StringComparer.InvariantCultureIgnoreCase
+                            .Compare(request.Method, HttpMethod.Patch.Method) == 0;
     }
 
     public static class MiddlewareExtensions

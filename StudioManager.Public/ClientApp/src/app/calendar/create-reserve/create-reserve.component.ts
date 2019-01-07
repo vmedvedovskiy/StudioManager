@@ -9,6 +9,17 @@ export class NewReserveModel {
     end: moment.Moment;
     phoneNumber: string;
     comment: string;
+
+    constructor(init: Partial<NewReserveModel>) {
+        Object.assign(this, init);
+    }
+}
+
+class NewReserveViewModel {
+    start: any;
+    end: any;
+    phoneNumber: string;
+    comment: string;
 }
 
 @Component({
@@ -18,15 +29,18 @@ export class NewReserveModel {
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateReserveComponent {
-    private newReserve = new NewReserveModel();
+    private newReserve = new NewReserveViewModel();
     private readonly workDayEnd = moment().hours(22);
     @ViewChild(NgForm) form: NgForm;
 
     constructor(
         private readonly dialogRef: MatDialogRef<CreateReserveComponent>,
         @Inject(MAT_DIALOG_DATA) private readonly data: moment.Moment) {
-        this.newReserve.start = moment(data);
-        this.newReserve.end = moment(data).add(1, 'hour');
+        this.newReserve.start = moment(data)
+            .set('minute', 0);
+        this.newReserve.end = moment(data)
+            .add(1, 'hour')
+            .set('minute', 0);
     }
 
     onReserveConfirm() {
@@ -34,6 +48,20 @@ export class CreateReserveComponent {
             return;
         }
 
-        this.dialogRef.close(this.newReserve);
+        const startTime = moment.duration(this.newReserve.start);
+        const endTime = moment.duration(this.newReserve.end);
+
+        const newReserve = new NewReserveModel({
+            comment: this.newReserve.comment,
+            phoneNumber: this.newReserve.phoneNumber,
+            start: moment(this.data).set(
+                'hour',
+                startTime.asHours()),
+            end: moment(this.data).set(
+                'hour',
+                endTime.asHours())
+        });
+
+        this.dialogRef.close(newReserve);
     }
 }

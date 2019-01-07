@@ -5,11 +5,13 @@
         <input matInput
                required
                name="start"
+               theme="dp-material"
                [(ngModel)]="newReserve.start"
                [placeholder]="'ReserveStartDate' | translate"
                mode="time"
                [maxTime]="newReserve.end"
                [dpDayPicker]="{
+                        'minutesInterval': 30,
                         'showTwentyFourHours': true,
                         'allowMultiSelect': false
                     }">
@@ -18,12 +20,14 @@
     <mat-form-field>
         <input matInput
                required
+               theme="dp-material"
                name="end"
                [(ngModel)]="newReserve.end"
                [placeholder]="'ReserveEndDate' | translate"
                [maxTime]="workDayEnd"
                mode="time"
                [dpDayPicker]="{
+                        'minutesInterval': 30,
                         'showTwentyFourHours': true,
                         'allowMultiSelect': false
                     }">

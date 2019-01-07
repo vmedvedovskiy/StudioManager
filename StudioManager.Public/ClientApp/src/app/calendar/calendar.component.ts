@@ -3,12 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
 
 import { DateFormatter } from './date.formatter';
-import { BookingData } from './calendar.api'
+import { BookingData, CalendarApi, NewReserve } from './calendar.api'
 import { CreateReserveComponent, NewReserveModel }
     from './create-reserve/create-reserve.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 import * as moment from 'moment';
+
+import { flatMap } from 'rxjs/operators'
 
 class CalendarEvent {
     constructor(
@@ -29,7 +31,7 @@ class CalendarEvent {
     ]
 })
 export class CalendarComponent {
-    
+
     private events: CalendarEvent[] = [];
     private viewDate = moment().toDate();
     private selectedView = CalendarView.Month;
@@ -38,7 +40,8 @@ export class CalendarComponent {
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly dialogService: MatDialog) {
+        private readonly dialogService: MatDialog,
+        private readonly api: CalendarApi) {
 
         this.route.data.subscribe((data: {
             events: BookingData[]
@@ -65,7 +68,7 @@ export class CalendarComponent {
         const eventDate = moment($event.date);
 
         if (this.events.some(_ =>
-                eventDate.isBetween(_.start, _.end))) {
+            eventDate.isBetween(_.start, _.end))) {
             return;
         }
 
@@ -76,6 +79,14 @@ export class CalendarComponent {
 
         this.reserveDialog
             .afterClosed()
-            .subscribe(_ => console.log`Result: ${_}`);
+            .pipe(flatMap(_ => this.api.createNew(new NewReserve({
+                comment: _.comment,
+                end: _.end.format(),
+                phoneNumber: _.phoneNumber,
+                start: _.start.format()
+            }))))
+            .subscribe(_ => {
+                console.log();
+            });
     }
 }

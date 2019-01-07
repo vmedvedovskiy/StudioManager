@@ -9,6 +9,17 @@ export class BookingData {
     to: string;
 }
 
+export class NewReserve {
+    constructor(init: Partial<NewReserve>) {
+        Object.assign(this, init);
+    }
+
+    start: string;
+    end: string;
+    phoneNumber: string;
+    comment: string;
+}
+
 @Injectable()
 export class CalendarApi {
 
@@ -25,5 +36,11 @@ export class CalendarApi {
                     'to': to.format()
                 }
             });
+    }
+
+    public createNew(newReserve: NewReserve): Observable<object> {
+        return this.client.post(
+            '/api/v1/booking',
+            newReserve);
     }
 }
