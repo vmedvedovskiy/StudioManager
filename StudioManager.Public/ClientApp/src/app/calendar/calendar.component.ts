@@ -6,17 +6,26 @@ import { DateFormatter } from './date.formatter';
 import { BookingData, CalendarApi, NewReserve } from './calendar.api'
 import { CreateReserveComponent, NewReserveModel }
     from './create-reserve/create-reserve.component';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import * as moment from 'moment';
 
 import { flatMap } from 'rxjs/operators'
-import { Subscription, Observable, of } from 'rxjs';
+import { Subscription,  of } from 'rxjs';
 
 class CalendarEvent {
     constructor(
         public start: Date,
         public end: Date) {
+    }
+}
+
+class Intermediary {
+    public from: moment.Moment
+    public to: moment.Moment
+
+    constructor(init: Partial<Intermediary>) {
+        Object.assign(this, init);
     }
 }
 
@@ -47,10 +56,31 @@ export class CalendarComponent implements OnDestroy {
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
-            this.events = data.events
+            this.events =
+                data.events
+                    .map(_ => new Intermediary({
+                        from: moment(_.from),
+                        to: moment(_.to)
+                }))
+                .sort((_, __) => _.from.diff (__.from))
+                .reduce((prev, current) => {
+                    const lastAddedEvent = prev[prev.length - 1];
+
+                    if (lastAddedEvent
+                        && lastAddedEvent.to.isSame(current.from, 'minute')) {
+                        lastAddedEvent.to = current.to;
+                    } else {
+                        prev.push(current);
+                    }
+
+                    return prev;
+                }, new Array<{
+                    from: moment.Moment,
+                    to: moment.Moment
+                }>())
                 .map(_ => new CalendarEvent(
-                    moment(_.from).toDate(),
-                    moment(_.to).toDate()));
+                    _.from.toDate(),
+                    _.to.toDate()));
         });
     }
 
