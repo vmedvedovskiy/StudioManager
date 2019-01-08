@@ -7,10 +7,10 @@ import {
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
-import { CalendarApi, BookingData } from './calendar.api';
+import { CalendarApi, BookingData } from '../calendar.api';
 
 @Injectable()
-export class CalendarResolver implements Resolve<BookingData[]> {
+export class SelectedDayResolver implements Resolve<BookingData[]> {
 
     constructor(private readonly api: CalendarApi) {
 
@@ -19,8 +19,10 @@ export class CalendarResolver implements Resolve<BookingData[]> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
         : Observable<BookingData[]> {
 
-        const startOfMonth = moment().startOf("month");
-        const endOfMonth = moment().endOf("month");
+        const selectedDay = route.paramMap['day'];
+
+        const startOfMonth = moment(selectedDay).startOf("day");
+        const endOfMonth = moment(selectedDay).endOf("day");
 
         return this.api.load(startOfMonth, endOfMonth);
     }

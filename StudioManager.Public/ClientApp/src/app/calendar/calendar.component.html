@@ -1,27 +1,8 @@
-<mat-button-toggle-group multiple="false"
-                         *ngIf="selectedView !== CalendarView.Month"
-                         [value]="selectedView"
-                         (change)="onCalendarViewChanged($event)">
-    <mat-button-toggle [value]="CalendarView.Month">
-        <i class="fa fa-chevron-left"></i>
-        {{ viewDate | date: 'LLLL' }}
-    </mat-button-toggle>
-</mat-button-toggle-group>
-
-<ng-container [ngSwitch]="selectedView">
+<router-outlet>
     <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
                              [viewDate]="viewDate"
                              locale="ru"
                              [events]="events"
                              (dayClicked)="onDayClicked($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
-                           [viewDate]="viewDate"
-                           locale="ru"
-                           [events]="events"
-                           [dayStartHour]="9"
-                           [dayEndHour]="22"
-                           [hourSegments]="1"
-                           (hourSegmentClicked)="onRequestReserve($event)">
-    </mwl-calendar-day-view>
-</ng-container>
+</router-outlet>

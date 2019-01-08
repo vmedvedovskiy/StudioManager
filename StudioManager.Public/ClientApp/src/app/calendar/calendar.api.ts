@@ -27,7 +27,7 @@ export class CalendarApi {
 
     }
 
-    public loadAll(from: moment.Moment, to: moment.Moment): Observable<BookingData[]> {
+    public load(from: moment.Moment, to: moment.Moment): Observable<BookingData[]> {
         return this.client.get<BookingData[]>(
             '/api/v1/booking',
             {

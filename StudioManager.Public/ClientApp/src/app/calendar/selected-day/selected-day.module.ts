@@ -12,12 +12,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import * as moment from 'moment';
 
-import { CalendarComponent } from './calendar.component';
-import { CalendarApi } from './calendar.api';
-import { CalendarResolver } from './calendar.resolver'
-
-import { CreateReserveModule } from './create-reserve/create-reserve.module';
-import { SelectedDayModule } from './selected-day/selected-day.module';
+import { SelectedDayComponent } from './selected-day.component';
+import { SelectedDayResolver } from './selected-day.resolver'
+import { CalendarApi } from '../calendar.api';
 
 export function momentAdapterFactory() {
     return adapterFactory(moment);
@@ -25,15 +22,15 @@ export function momentAdapterFactory() {
 
 @NgModule({
     declarations: [
-        CalendarComponent
+        SelectedDayComponent
     ],
     imports: [
         RouterModule.forChild([
             {
-                path: 'calendar',
-                component: CalendarComponent,
+                path: ':day',
+                component: SelectedDayComponent,
                 resolve: {
-                    events: CalendarResolver
+                    events: SelectedDayResolver
                 }
             }
         ]),
@@ -43,18 +40,16 @@ export function momentAdapterFactory() {
         }),
         MatButtonToggleModule,
         CommonModule,
-        TranslateModule,
-        CreateReserveModule,
-        SelectedDayModule
+        TranslateModule
     ],
     providers: [
         CalendarApi,
-        CalendarResolver,
+        SelectedDayResolver,
         {
             provide: MOMENT,
             useValue: moment
         }
     ]
 })
-export class CalendarModule {
+export class SelectedDayModule {
 }

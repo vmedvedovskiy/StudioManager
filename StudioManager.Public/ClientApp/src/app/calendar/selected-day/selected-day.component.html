@@ -1,0 +1,14 @@
+<mat-button-toggle (click)="back()">
+    <i class="fa fa-chevron-left"></i>
+    {{ viewDate.toDate() | date: 'LLLL' }}
+</mat-button-toggle>
+
+<mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
+                       [viewDate]="viewDate"
+                       locale="ru"
+                       [events]="events"
+                       [dayStartHour]="9"
+                       [dayEndHour]="22"
+                       [hourSegments]="1"
+                       (hourSegmentClicked)="onRequestReserve($event)">
+</mwl-calendar-day-view>
