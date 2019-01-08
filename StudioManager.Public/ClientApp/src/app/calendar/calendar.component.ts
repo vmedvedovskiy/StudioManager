@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
+import { CalendarDateFormatter } from 'angular-calendar';
 
 import { DateFormatter } from './date.formatter';
 import { BookingData } from './calendar.api'
@@ -29,7 +29,6 @@ export class CalendarComponent {
 
     private events: CalendarEvent[] = [];
     private viewDate = moment().toDate();
-    private CalendarView = CalendarView;
 
     constructor(
         private readonly router: Router,
@@ -47,10 +46,13 @@ export class CalendarComponent {
 
     onDayClicked($event: {
         day: {
-            date: Date
-        }) {
-        this.router.navigate([
-            './',
-            $event.day.date.getTime()]);
+            date: Date;
+        }
+    }) {
+        this.router.navigate(
+            [$event.day.date.getTime()],
+            {
+                relativeTo: this.route
+            });
     }
 }

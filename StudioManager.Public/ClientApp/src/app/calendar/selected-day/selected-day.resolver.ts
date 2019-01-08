@@ -19,7 +19,7 @@ export class SelectedDayResolver implements Resolve<BookingData[]> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
         : Observable<BookingData[]> {
 
-        const selectedDay = route.paramMap['day'];
+        const selectedDay = +route.paramMap.get('day');
 
         const startOfMonth = moment(selectedDay).startOf("day");
         const endOfMonth = moment(selectedDay).endOf("day");

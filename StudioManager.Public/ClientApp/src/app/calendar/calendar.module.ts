@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
 import {
     CalendarModule as CalendarLibModule,
     DateAdapter,
@@ -14,10 +14,11 @@ import * as moment from 'moment';
 
 import { CalendarComponent } from './calendar.component';
 import { CalendarApi } from './calendar.api';
-import { CalendarResolver } from './calendar.resolver'
+import { CalendarResolver } from './calendar.resolver';
 
 import { CreateReserveModule } from './create-reserve/create-reserve.module';
-import { SelectedDayModule } from './selected-day/selected-day.module';
+import { SelectedDayComponent } from './selected-day/selected-day.component';
+import { SelectedDayResolver } from './selected-day/selected-day.resolver';
 
 export function momentAdapterFactory() {
     return adapterFactory(moment);
@@ -25,7 +26,8 @@ export function momentAdapterFactory() {
 
 @NgModule({
     declarations: [
-        CalendarComponent
+        CalendarComponent,
+        SelectedDayComponent
     ],
     imports: [
         RouterModule.forChild([
@@ -34,7 +36,16 @@ export function momentAdapterFactory() {
                 component: CalendarComponent,
                 resolve: {
                     events: CalendarResolver
-                }
+                },
+                children: [
+                    {
+                        path: ':day',
+                        component: SelectedDayComponent,
+                        resolve: {
+                            events: SelectedDayResolver
+                        },
+                        runGuardsAndResolvers: 'always'
+                    }]
             }
         ]),
         CalendarLibModule.forRoot({
@@ -44,16 +55,19 @@ export function momentAdapterFactory() {
         MatButtonToggleModule,
         CommonModule,
         TranslateModule,
-        CreateReserveModule,
-        SelectedDayModule
+        CreateReserveModule
     ],
     providers: [
         CalendarApi,
         CalendarResolver,
+        SelectedDayResolver,
         {
             provide: MOMENT,
             useValue: moment
         }
+    ],
+    exports: [
+        RouterModule
     ]
 })
 export class CalendarModule {

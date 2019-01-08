@@ -3,8 +3,7 @@
     {{ viewDate.toDate() | date: 'LLLL' }}
 </mat-button-toggle>
 
-<mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
-                       [viewDate]="viewDate"
+<mwl-calendar-day-view [viewDate]="viewDate"
                        locale="ru"
                        [events]="events"
                        [dayStartHour]="9"
