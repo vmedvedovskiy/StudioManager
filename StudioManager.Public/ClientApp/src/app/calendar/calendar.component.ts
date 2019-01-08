@@ -11,7 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
 import { flatMap } from 'rxjs/operators'
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 
 class CalendarEvent {
     constructor(
@@ -78,13 +78,18 @@ export class CalendarComponent implements OnDestroy {
                 data: moment($event.date)
             })
             .afterClosed()
-            .pipe(flatMap((_: NewReserveModel | null) =>
-                _ && this.api.createNew(new NewReserve({
+            .pipe(flatMap((_: NewReserveModel | null) => {
+                if (_ == null) {
+                    return of();
+                }
+
+                return this.api.createNew(new NewReserve({
                     description: _.comment,
                     to: _.end.format(),
                     contactPhone: _.phoneNumber,
                     from: _.start.format()
-                }))))
+                }))
+            }))
             .subscribe();
     }
 
