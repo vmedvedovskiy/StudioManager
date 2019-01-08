@@ -13,7 +13,5 @@ namespace StudioManager.Services
         public string Description { get; set; }
 
         public string ContactPhone { get; set; }
-
-        public decimal Price { get; set; }
     }
 }

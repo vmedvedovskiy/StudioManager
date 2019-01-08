@@ -14,10 +14,10 @@ export class NewReserve {
         Object.assign(this, init);
     }
 
-    start: string;
-    end: string;
-    phoneNumber: string;
-    comment: string;
+    from: string;
+    to: string;
+    contactPhone: string;
+    description: string;
 }
 
 @Injectable()

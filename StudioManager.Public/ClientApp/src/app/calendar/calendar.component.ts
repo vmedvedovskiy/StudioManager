@@ -80,10 +80,10 @@ export class CalendarComponent {
         this.reserveDialog
             .afterClosed()
             .pipe(flatMap(_ => this.api.createNew(new NewReserve({
-                comment: _.comment,
-                end: _.end.format(),
-                phoneNumber: _.phoneNumber,
-                start: _.start.format()
+                description: _.comment,
+                to: _.end.format(),
+                contactPhone: _.phoneNumber,
+                from: _.start.format()
             }))))
             .subscribe(_ => {
                 console.log();
