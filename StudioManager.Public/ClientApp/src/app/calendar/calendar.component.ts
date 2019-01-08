@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalendarView, CalendarDateFormatter } from 'angular-calendar';
 
@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import * as moment from 'moment';
 
 import { flatMap } from 'rxjs/operators'
+import { Subscription } from 'rxjs';
 
 class CalendarEvent {
     constructor(
@@ -30,13 +31,13 @@ class CalendarEvent {
         }
     ]
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnDestroy {
 
     private events: CalendarEvent[] = [];
     private viewDate = moment().toDate();
     private selectedView = CalendarView.Month;
     private CalendarView = CalendarView;
-    private reserveDialog: MatDialogRef<CreateReserveComponent, NewReserveModel>;
+    private reserveDialogCloseSubscription: Subscription;
 
     constructor(
         private readonly route: ActivatedRoute,
@@ -68,25 +69,27 @@ export class CalendarComponent {
         const eventDate = moment($event.date);
 
         if (this.events.some(_ =>
-            eventDate.isBetween(_.start, _.end))) {
+            eventDate.isBetween(_.start, _.end, null, '[)'))) {
             return;
         }
 
-        this.reserveDialog = this.dialogService
+        this.reserveDialogCloseSubscription = this.dialogService
             .open(CreateReserveComponent, {
                 data: moment($event.date)
-            });
-
-        this.reserveDialog
+            })
             .afterClosed()
-            .pipe(flatMap(_ => this.api.createNew(new NewReserve({
-                description: _.comment,
-                to: _.end.format(),
-                contactPhone: _.phoneNumber,
-                from: _.start.format()
-            }))))
-            .subscribe(_ => {
-                console.log();
-            });
+            .pipe(flatMap((_: NewReserveModel | null) =>
+                _ && this.api.createNew(new NewReserve({
+                    description: _.comment,
+                    to: _.end.format(),
+                    contactPhone: _.phoneNumber,
+                    from: _.start.format()
+                }))))
+            .subscribe();
+    }
+
+    ngOnDestroy(): void {
+        this.reserveDialogCloseSubscription
+            && this.reserveDialogCloseSubscription.unsubscribe();
     }
 }

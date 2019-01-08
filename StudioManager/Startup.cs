@@ -32,7 +32,11 @@ namespace StudioManager
                .BuildServiceProvider();
 
             var mappingConfig = new MapperConfiguration(
-                _ => _.AddProfile<BookingMapping>());
+                _ => 
+                {
+                    _.AddProfile<BookingMapping>();
+                    _.AddProfile<BookingApiMapping>();
+                });
 
             services
                 .AddTransient<IBookingQueryService, BookingQueryService>()
