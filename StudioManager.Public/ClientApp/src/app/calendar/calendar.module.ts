@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as moment from 'moment';
 
 import { CalendarComponent } from './calendar.component';
+import { CalendarRootComponent } from './calendar-root.component';
 import { CalendarApi } from './calendar.api';
 import { CalendarResolver } from './calendar.resolver';
 
@@ -27,27 +28,29 @@ export function momentAdapterFactory() {
 @NgModule({
     declarations: [
         CalendarComponent,
-        SelectedDayComponent
+        SelectedDayComponent,
+        CalendarRootComponent
     ],
     imports: [
         RouterModule.forChild([
             {
                 path: 'calendar',
-                component: CalendarComponent,
-                resolve: {
-                    events: CalendarResolver
-                },
-                children: [
-                    {
-                        path: ':day',
-                        component: SelectedDayComponent,
-                        resolve: {
-                            events: SelectedDayResolver
-                        },
-                        runGuardsAndResolvers: 'always'
-                    }]
-            }
-        ]),
+                component: CalendarRootComponent,
+                children: [{
+                    path: '',
+                    component: CalendarComponent,
+                    resolve: {
+                        events: CalendarResolver
+                    }
+                }, {
+                    path: ':day',
+                    component: SelectedDayComponent,
+                    resolve: {
+                        events: SelectedDayResolver
+                    },
+                    runGuardsAndResolvers: 'always'
+                }]
+            }]),
         CalendarLibModule.forRoot({
             provide: DateAdapter,
             useFactory: momentAdapterFactory

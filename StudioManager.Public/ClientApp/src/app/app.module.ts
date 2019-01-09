@@ -4,7 +4,7 @@ import localeRu from '@angular/common/locales/ru';
 import { registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -42,7 +42,8 @@ moment.updateLocale('ru', {
             pathMatch: 'full'
         }],
         {
-            onSameUrlNavigation: 'reload'
+            onSameUrlNavigation: 'reload',
+            enableTracing: true
         }),
         BrowserAnimationsModule,
         TranslateModule.forRoot({
@@ -60,11 +61,5 @@ moment.updateLocale('ru', {
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    constructor(router: Router) {
-        // Use a custom replacer to display function names in the route configs
-        const replacer = (key, value) => (typeof value === 'function') ? value.name : value;
-
-        console.log('Routes: ', JSON.stringify(router.config, replacer, 2));
-    }
 }
 
