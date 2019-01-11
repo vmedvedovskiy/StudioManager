@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material';
 
 import * as moment from 'moment';
 
-import { flatMap, tap } from 'rxjs/operators'
-import { Subscription, Observable, of } from 'rxjs';
+import { flatMap, tap, filter } from 'rxjs/operators'
+import { Subscription, Subject } from 'rxjs';
 
 class Intermediary {
     public from: moment.Moment
@@ -39,7 +39,10 @@ class Intermediary {
 export class SelectedDayComponent implements OnDestroy {
 
     private events: CalendarEvent[] = [];
+    private rawEvents: BookingData[];
     private viewDate: moment.Moment;
+
+    private refreshView = new Subject<any>();
 
     private reserveDialogCloseSubscription: Subscription;
 
@@ -55,26 +58,9 @@ export class SelectedDayComponent implements OnDestroy {
         this.route.data.subscribe((data: {
             events: BookingData[]
         }) => {
-            this.events =
-                data.events
-                    .map(this.toIntermediary)
-                    .sort((_, __) => _.from.diff(__.from))
-                    .reduce((prev, current) => {
-                        const lastAddedEvent = prev[prev.length - 1];
+            this.rawEvents = data.events;
 
-                        if (lastAddedEvent
-                            && lastAddedEvent.to.isSame(current.from, 'minute')) {
-                            lastAddedEvent.to = current.to;
-                        } else {
-                            prev.push(current);
-                        }
-
-                        return prev;
-                    }, new Array<{
-                        from: moment.Moment,
-                        to: moment.Moment
-                    }>())
-                    .map(this.toCalendarEvent);
+            this.prepareViewEvents();
         });
     }
 
@@ -98,25 +84,40 @@ export class SelectedDayComponent implements OnDestroy {
                 data: moment($event.date)
             })
             .afterClosed()
-            .pipe(flatMap((_: NewReserveModel | '' | null) => {
-                if (_ == '' || _ == null) {
-                    return of();
-                }
-
-                return this.api
-                    .createNew(new NewReserve({
-                        description: _.comment,
-                        to: _.end.local().format(),
-                        contactPhone: _.phoneNumber,
-                        from: _.start.local().format()
-                    }))
-                    .pipe(this.addCreatedEvent())
-            }))
+            .pipe(
+                this.hasAddedReserve,
+                this.postEventToApi,
+                this.addCreatedEvent)
             .subscribe();
     }
 
     back() {
         return this.router.navigate(['../']);
+    }
+
+    private prepareViewEvents() {
+        this.events =
+            this.rawEvents
+                .map(this.toIntermediary)
+                .sort((_, __) => _.from.diff(__.from))
+                .reduce((prev, current) => {
+                    const lastAddedEvent = prev[prev.length - 1];
+
+                    if (lastAddedEvent
+                        && lastAddedEvent.to.isSame(current.from, 'minute')) {
+                        lastAddedEvent.to = current.to;
+                    } else {
+                        prev.push(current);
+                    }
+
+                    return prev;
+                }, new Array<{
+                    from: moment.Moment,
+                    to: moment.Moment
+                }>())
+                .map(this.toCalendarEvent);
+
+        this.refreshView.next();
     }
 
     private toIntermediary(_: BookingData): Intermediary {
@@ -132,9 +133,25 @@ export class SelectedDayComponent implements OnDestroy {
             _.to.toDate());
     }
 
-    private addCreatedEvent() {
-        return tap((_: BookingData) => this.events = [
-            ...this.events,
-            this.toCalendarEvent(this.toIntermediary(_))]);
-    }
+    private hasAddedReserve
+        = filter((_: NewReserveModel | '' | null) =>
+            !(_ == '' || _ == null))
+
+    private postEventToApi
+        = flatMap((_: NewReserveModel) => {
+            return this.api
+                .createNew(new NewReserve({
+                    description: _.comment,
+                    to: _.end.local().format(),
+                    contactPhone: _.phoneNumber,
+                    from: _.start.local().format()
+                }))
+        });
+
+    private addCreatedEvent
+        = tap((_: BookingData) => {
+            this.rawEvents = [...this.rawEvents, _];
+
+            this.prepareViewEvents();
+        });
 }
