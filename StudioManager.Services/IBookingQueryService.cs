@@ -5,6 +5,8 @@ namespace StudioManager.Services
 {
     public interface IBookingQueryService
     {
-        Task<IReadOnlyList<BookingModel>> GetAllAsync();
+        Task<IReadOnlyList<BookingModel>> GetAllAsync(System.DateTime from, System.DateTime to);
+
+        Task<BookingModel> GetByIdAsync(System.Guid id);
     }
 }

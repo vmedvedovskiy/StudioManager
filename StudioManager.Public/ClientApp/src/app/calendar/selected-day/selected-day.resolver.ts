@@ -21,8 +21,8 @@ export class SelectedDayResolver implements Resolve<BookingData[]> {
 
         const selectedDay = +route.paramMap.get('day');
 
-        const startOfMonth = moment(selectedDay).startOf("day");
-        const endOfMonth = moment(selectedDay).endOf("day");
+        const startOfMonth = moment(selectedDay).startOf('week');
+        const endOfMonth = moment(selectedDay).endOf('week');
 
         return this.api.load(startOfMonth, endOfMonth);
     }

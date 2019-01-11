@@ -29,10 +29,14 @@ namespace StudioManager.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<BookingApiModel>))]
-        public async Task<ActionResult<IEnumerable<BookingApiModel>>> Get()
+        public async Task<ActionResult<IEnumerable<BookingApiModel>>> Get(
+            [FromQuery] long from,
+            [FromQuery] long to)
         {
             var data = await this.queryService
-                .GetAllAsync()
+                .GetAllAsync(
+                    DateTimeOffset.FromUnixTimeSeconds(from).UtcDateTime,
+                    DateTimeOffset.FromUnixTimeSeconds(to).UtcDateTime)
                 .ConfigureAwait(false);
 
             return this.Ok(data.Select(this.mapper.Map<BookingApiModel>));
@@ -44,10 +48,10 @@ namespace StudioManager.Controllers
         public async Task<ActionResult<IEnumerable<BookingApiModel>>> GetByID(Guid id)
         {
             var data = await this.queryService
-                .GetAllAsync()
+                .GetByIdAsync(id)
                 .ConfigureAwait(false);
 
-            return this.Ok(data.Select(this.mapper.Map<BookingApiModel>));
+            return this.Ok(this.mapper.Map<BookingApiModel>(data));
         }
 
         [HttpPost]

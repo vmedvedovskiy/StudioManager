@@ -32,8 +32,8 @@ export class CalendarApi {
             '/api/v1/booking',
             {
                 params: {
-                    'from': from.format(),
-                    'to': to.format()
+                    'from': from.utc().unix().toString(),
+                    'to': to.utc().unix().toString()
                 }
             });
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,12 +19,18 @@ namespace StudioManager.Services.Impl
             this.mapper = mapper;
         }
 
-        public Task<IReadOnlyList<BookingModel>> GetAllAsync()
+        public Task<IReadOnlyList<BookingModel>> GetAllAsync(DateTime from, DateTime to)
             => db.Bookings
-            .ToListAsync()
+                .Where(_ => _.From >= from && _.To < to)
+                .ToListAsync()
                 .ContinueWith(task => (IReadOnlyList<BookingModel>)task
                     .Result
                     .Select(this.mapper.Map<BookingModel>)
                     .ToList());
+
+        public Task<BookingModel> GetByIdAsync(Guid id) 
+            => db.Bookings
+                .SingleOrDefaultAsync(_ => _.Id == id)
+                .ContinueWith(task => this.mapper.Map<BookingModel>(task.Result));
     }
 }
