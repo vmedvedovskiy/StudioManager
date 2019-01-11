@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarDateFormatter } from 'angular-calendar';
 
@@ -26,18 +26,21 @@ class Intermediary {
 @Component({
     selector: 'selected-day',
     templateUrl: './selected-day.component.html',
+    styleUrls: ['./selected-day.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: CalendarDateFormatter,
             useClass: DateFormatter
         }
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class SelectedDayComponent implements OnDestroy {
 
     private events: CalendarEvent[] = [];
     private viewDate: moment.Moment;
+
     private reserveDialogCloseSubscription: Subscription;
 
     constructor(
@@ -46,7 +49,7 @@ export class SelectedDayComponent implements OnDestroy {
         private readonly dialogService: MatDialog,
         private readonly api: CalendarApi) {
 
-        this.viewDate = moment(+route.snapshot.paramMap.get('day'));
+        this.viewDate = moment.utc(+route.snapshot.paramMap.get('day'));
 
         this.route.data.subscribe((data: {
             events: BookingData[]
@@ -54,8 +57,8 @@ export class SelectedDayComponent implements OnDestroy {
             this.events =
                 data.events
                     .map(_ => new Intermediary({
-                        from: moment(_.from),
-                        to: moment(_.to)
+                        from: moment.utc(_.from).local(),
+                        to: moment.utc(_.to).local()
                 }))
                 .sort((_, __) => _.from.diff (__.from))
                 .reduce((prev, current) => {
@@ -94,16 +97,16 @@ export class SelectedDayComponent implements OnDestroy {
                 data: moment($event.date)
             })
             .afterClosed()
-            .pipe(flatMap((_: NewReserveModel | null) => {
-                if (_ == null) {
+            .pipe(flatMap((_: NewReserveModel | '' | null) => {
+                if (_ == '' || _ == null) {
                     return of();
                 }
 
                 return this.api.createNew(new NewReserve({
                     description: _.comment,
-                    to: _.end.format(),
+                    to: _.end.local().format(),
                     contactPhone: _.phoneNumber,
-                    from: _.start.format()
+                    from: _.start.local().format()
                 }))
             }))
             .subscribe();

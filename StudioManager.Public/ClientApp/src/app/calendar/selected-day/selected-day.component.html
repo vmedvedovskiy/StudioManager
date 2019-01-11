@@ -3,11 +3,18 @@
     {{ viewDate.toDate() | date: 'LLLL' }}
 </mat-button-toggle>
 
-<mwl-calendar-day-view [viewDate]="viewDate"
-                       locale="ru"
-                       [events]="events"
-                       [dayStartHour]="9"
-                       [dayEndHour]="22"
-                       [hourSegments]="1"
-                       (hourSegmentClicked)="onRequestReserve($event)">
-</mwl-calendar-day-view>
+<mwl-calendar-week-view [viewDate]="viewDate"
+                        locale="ru"
+                        [events]="events"
+                        [dayStartHour]="9"
+                        [dayEndHour]="22"
+                        [hourSegments]="1"
+                        (hourSegmentClicked)="onRequestReserve($event)" >
+</mwl-calendar-week-view>
+
+<ng-template #eventTemplate let-day="day" let-locale="locale">
+    <div class="cal-cell-top">
+        <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+    </div>
+</ng-template>
+

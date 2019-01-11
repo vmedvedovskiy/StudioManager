@@ -3,15 +3,15 @@ import { DatePipe } from '@angular/common';
 
 export class DateFormatter extends CalendarDateFormatter {
 
-  public monthViewColumnHeader({ date, locale }: DateFormatterParams): string {
-    return new DatePipe(locale).transform(date, 'EEE', locale);
-  }
+    public monthViewColumnHeader({ date, locale }: DateFormatterParams): string {
+        return new DatePipe(locale).transform(date, 'EEE', locale);
+    }
 
-  public monthViewTitle({ date, locale }: DateFormatterParams): string {
-    return new DatePipe(locale).transform(date, 'MMM y', locale);
-  }
+    public monthViewTitle({ date, locale }: DateFormatterParams): string {
+        return new DatePipe(locale).transform(date, 'MMM y', locale);
+    }
 
-  public dayViewHour({ date, locale }: DateFormatterParams): string {
-    return new DatePipe(locale).transform(date, 'HH:mm', locale);
-  }
+    public weekViewHour({ date, locale }: DateFormatterParams): string {
+        return new DatePipe(locale).transform(date, 'HH:mm', locale);
+    }
 }
