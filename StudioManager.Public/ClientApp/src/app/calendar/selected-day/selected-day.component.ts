@@ -49,7 +49,8 @@ export class SelectedDayComponent implements OnDestroy {
         private readonly dialogService: MatDialog,
         private readonly api: CalendarApi) {
 
-        this.viewDate = moment.utc(+route.snapshot.paramMap.get('day'));
+        this.viewDate = moment(+route.snapshot.paramMap.get('day'))
+            .local();
 
         this.route.data.subscribe((data: {
             events: BookingData[]

@@ -42,8 +42,7 @@ moment.updateLocale('ru', {
             pathMatch: 'full'
         }],
         {
-            onSameUrlNavigation: 'reload',
-            enableTracing: true
+            onSameUrlNavigation: 'reload'
         }),
         BrowserAnimationsModule,
         TranslateModule.forRoot({
