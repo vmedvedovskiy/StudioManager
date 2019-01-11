@@ -38,8 +38,8 @@ export class CalendarApi {
             });
     }
 
-    public createNew(newReserve: NewReserve): Observable<object> {
-        return this.client.post(
+    public createNew(newReserve: NewReserve): Observable<BookingData> {
+        return this.client.post<BookingData>(
             '/api/v1/booking',
             newReserve);
     }

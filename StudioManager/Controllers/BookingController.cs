@@ -64,8 +64,8 @@ namespace StudioManager.Controllers
 
             return this.CreatedAtAction(
                 nameof(this.GetByID), 
-                new { id = entity.Id }, 
-                entity);
+                new { id = entity.Id },
+                this.mapper.Map<BookingApiModel>(entity));
         }
     }
 }

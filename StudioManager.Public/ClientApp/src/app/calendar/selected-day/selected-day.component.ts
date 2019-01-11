@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material';
 
 import * as moment from 'moment';
 
-import { flatMap } from 'rxjs/operators'
-import { Subscription,  of } from 'rxjs';
+import { flatMap, tap } from 'rxjs/operators'
+import { Subscription, Observable, of } from 'rxjs';
 
 class Intermediary {
     public from: moment.Moment
@@ -57,30 +57,30 @@ export class SelectedDayComponent implements OnDestroy {
         }) => {
             this.events =
                 data.events
-                    .map(_ => new Intermediary({
-                        from: moment.utc(_.from).local(),
-                        to: moment.utc(_.to).local()
-                }))
-                .sort((_, __) => _.from.diff (__.from))
-                .reduce((prev, current) => {
-                    const lastAddedEvent = prev[prev.length - 1];
+                    .map(this.toIntermediary)
+                    .sort((_, __) => _.from.diff(__.from))
+                    .reduce((prev, current) => {
+                        const lastAddedEvent = prev[prev.length - 1];
 
-                    if (lastAddedEvent
-                        && lastAddedEvent.to.isSame(current.from, 'minute')) {
-                        lastAddedEvent.to = current.to;
-                    } else {
-                        prev.push(current);
-                    }
+                        if (lastAddedEvent
+                            && lastAddedEvent.to.isSame(current.from, 'minute')) {
+                            lastAddedEvent.to = current.to;
+                        } else {
+                            prev.push(current);
+                        }
 
-                    return prev;
-                }, new Array<{
-                    from: moment.Moment,
-                    to: moment.Moment
-                }>())
-                .map(_ => new CalendarEvent(
-                    _.from.toDate(),
-                    _.to.toDate()));
+                        return prev;
+                    }, new Array<{
+                        from: moment.Moment,
+                        to: moment.Moment
+                    }>())
+                    .map(this.toCalendarEvent);
         });
+    }
+
+    ngOnDestroy(): void {
+        this.reserveDialogCloseSubscription
+            && this.reserveDialogCloseSubscription.unsubscribe();
     }
 
     onRequestReserve($event: {
@@ -103,12 +103,14 @@ export class SelectedDayComponent implements OnDestroy {
                     return of();
                 }
 
-                return this.api.createNew(new NewReserve({
-                    description: _.comment,
-                    to: _.end.local().format(),
-                    contactPhone: _.phoneNumber,
-                    from: _.start.local().format()
-                }))
+                return this.api
+                    .createNew(new NewReserve({
+                        description: _.comment,
+                        to: _.end.local().format(),
+                        contactPhone: _.phoneNumber,
+                        from: _.start.local().format()
+                    }))
+                    .pipe(this.addCreatedEvent())
             }))
             .subscribe();
     }
@@ -117,8 +119,22 @@ export class SelectedDayComponent implements OnDestroy {
         return this.router.navigate(['../']);
     }
 
-    ngOnDestroy(): void {
-        this.reserveDialogCloseSubscription
-            && this.reserveDialogCloseSubscription.unsubscribe();
+    private toIntermediary(_: BookingData): Intermediary {
+        return new Intermediary({
+            from: moment.utc(_.from).local(),
+            to: moment.utc(_.to).local()
+        });
+    }
+
+    private toCalendarEvent(_: Intermediary): CalendarEvent {
+        return new CalendarEvent(
+            _.from.toDate(),
+            _.to.toDate());
+    }
+
+    private addCreatedEvent() {
+        return tap((_: BookingData) => this.events = [
+            ...this.events,
+            this.toCalendarEvent(this.toIntermediary(_))]);
     }
 }
