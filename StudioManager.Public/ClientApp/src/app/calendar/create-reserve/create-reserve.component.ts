@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+
+import { ThankYouComponent } from './thank-you/thank-you.component';
 
 import * as moment from 'moment';
 
@@ -30,12 +32,14 @@ class NewReserveViewModel {
 })
 export class CreateReserveComponent {
     private newReserve = new NewReserveViewModel();
-    private readonly workDayEnd = moment().hours(22);
-    @ViewChild(NgForm) form: NgForm;
+    @ViewChild(NgForm) private form: NgForm;
+
+    public readonly workDayEnd = moment().hours(22);
 
     constructor(
         private readonly dialogRef: MatDialogRef<CreateReserveComponent>,
-        @Inject(MAT_DIALOG_DATA) private readonly data: moment.Moment) {
+        @Inject(MAT_DIALOG_DATA) private readonly data: moment.Moment,
+        private readonly dialogService: MatDialog) {
         this.newReserve.start = moment(data)
             .set('minute', 0);
         this.newReserve.end = moment(data)
@@ -61,6 +65,8 @@ export class CreateReserveComponent {
                 'hour',
                 endTime.asHours())
         });
+
+        this.dialogService.open(ThankYouComponent);
 
         this.dialogRef.close(newReserve);
     }

@@ -9,10 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DpDatePickerModule } from 'ng2-date-picker';
 
 import { CreateReserveComponent } from './create-reserve.component';
+import { ThankYouComponent } from './thank-you/thank-you.component';
 
 @NgModule({
     declarations: [
-        CreateReserveComponent
+        CreateReserveComponent,
+        ThankYouComponent
     ],
     imports: [
         FormsModule,
@@ -25,7 +27,8 @@ import { CreateReserveComponent } from './create-reserve.component';
         MatInputModule
     ],
     entryComponents: [
-        CreateReserveComponent
+        CreateReserveComponent,
+        ThankYouComponent
     ]
 })
 export class CreateReserveModule {
