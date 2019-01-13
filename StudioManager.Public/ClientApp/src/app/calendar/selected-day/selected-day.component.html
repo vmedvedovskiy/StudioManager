@@ -1,17 +1,21 @@
-<mat-button-toggle-group>
+<mat-button-toggle-group class="calendar-nav">
     <mat-button-toggle mwlCalendarPreviousView
                        [view]="CalendarView.Week"
-                       [(viewDate)]="viewDate">
+                       [(viewDate)]="viewDate"
+                       [routerLink]="['../', getPreviousWeek(viewDate)]"
+                       [disabled]="canNavigateBack(viewDate)">
         <i class="fa fa-chevron-left"></i>
     </mat-button-toggle>
     <mat-button-toggle mwlCalendarToday
-                       [(viewDate)]="viewDate">
+                       [(viewDate)]="viewDate"
+                       [routerLink]="['../', getCurrentWeek()]">
         {{ 'Today' | translate }}
     </mat-button-toggle>
     <mat-button-toggle class="btn btn-primary"
                        mwlCalendarNextView
                        [view]="CalendarView.Week"
-                       [(viewDate)]="viewDate">
+                       [(viewDate)]="viewDate"
+                       [routerLink]="['../', getNextWeek(viewDate)]">
         <i class="fa fa-chevron-right"></i>
     </mat-button-toggle>
 </mat-button-toggle-group>

@@ -25,7 +25,6 @@ export function momentAdapterFactory() {
 
 @NgModule({
     declarations: [
-        CalendarComponent,
         SelectedDayComponent,
         CalendarRootComponent
     ],
@@ -35,7 +34,7 @@ export function momentAdapterFactory() {
                 path: 'calendar',
                 component: CalendarRootComponent,
                 children: [{
-                    path: '',
+                    path: ':day',
                     component: SelectedDayComponent,
                     resolve: {
                         events: SelectedDayResolver
@@ -54,7 +53,6 @@ export function momentAdapterFactory() {
     ],
     providers: [
         CalendarApi,
-        CalendarResolver,
         SelectedDayResolver,
         {
             provide: MOMENT,

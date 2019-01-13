@@ -38,7 +38,7 @@ moment.updateLocale('ru', {
         AppCalendarModule,
         RouterModule.forRoot([{
             path: '',
-            redirectTo: '/calendar',
+            redirectTo: '/calendar/' + new Date().getTime(),
             pathMatch: 'full'
         }],
         {

@@ -4,7 +4,6 @@ import { CalendarDateFormatter, CalendarView } from 'angular-calendar';
 
 import { DateFormatter } from '../date.formatter';
 import { BookingData, CalendarApi, NewReserve } from '../calendar.api'
-import { CalendarEvent } from '../calendar.component'
 import { CreateReserveComponent, NewReserveModel }
     from '../create-reserve/create-reserve.component';
 import { MatDialog } from '@angular/material';
@@ -23,6 +22,13 @@ class Intermediary {
     }
 }
 
+class CalendarEvent {
+    constructor(
+        public start: Date,
+        public end: Date) {
+    }
+}
+
 @Component({
     selector: 'selected-day',
     templateUrl: './selected-day.component.html',
@@ -38,7 +44,7 @@ export class SelectedDayComponent implements OnDestroy {
 
     private events: CalendarEvent[] = [];
     private rawEvents: BookingData[];
-    private viewDate = moment().local();
+    private viewDate: moment.Moment;
     private CalendarView = CalendarView;
 
     private refreshView = new Subject<any>();
@@ -49,6 +55,9 @@ export class SelectedDayComponent implements OnDestroy {
         private readonly route: ActivatedRoute,
         private readonly dialogService: MatDialog,
         private readonly api: CalendarApi) {
+
+        this.viewDate = moment(+route.snapshot.paramMap.get('day'))
+            .local();
 
         this.route.data.subscribe((data: {
             events: BookingData[]
@@ -145,4 +154,22 @@ export class SelectedDayComponent implements OnDestroy {
 
             this.prepareViewEvents();
         });
+
+    private getCurrentWeek() {
+        return moment().local().valueOf();
+    }
+
+    private getPreviousWeek(viewDate: moment.Moment) {
+        return moment(viewDate).subtract(1, 'week').valueOf();
+    }
+
+    private getNextWeek(viewDate: moment.Moment) {
+        return moment(viewDate).add(1, 'week').valueOf();
+    }
+
+    private canNavigateBack(viewDate: moment.Moment) {
+        return moment()
+            .local()
+            .diff(viewDate, 'week') === 0;
+    }
 }

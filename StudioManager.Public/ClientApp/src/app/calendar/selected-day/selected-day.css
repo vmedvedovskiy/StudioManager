@@ -1,3 +1,7 @@
 .cal-week-view .cal-ends-within-day .cal-event {
     padding: 0;
 }
+
+.calendar-nav {
+    margin: 10px 0;
+}
