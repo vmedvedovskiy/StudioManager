@@ -28,8 +28,8 @@ namespace StudioManager.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<BookingApiModel>))]
-        public async Task<ActionResult<IEnumerable<BookingApiModel>>> Get(
+        [ProducesResponseType(200, Type = typeof(IEnumerable<PublicBookingApiModel>))]
+        public async Task<ActionResult<IEnumerable<PublicBookingApiModel>>> Get(
             [FromQuery] long from,
             [FromQuery] long to)
         {
@@ -39,23 +39,23 @@ namespace StudioManager.Controllers
                     DateTimeOffset.FromUnixTimeSeconds(to).UtcDateTime)
                 .ConfigureAwait(false);
 
-            return this.Ok(data.Select(this.mapper.Map<BookingApiModel>));
+            return this.Ok(data.Select(this.mapper.Map<PublicBookingApiModel>));
         }
 
         [HttpGet]
         [Route("{id:guid}")]
-        [ProducesResponseType(200, Type = typeof(BookingApiModel))]
-        public async Task<ActionResult<IEnumerable<BookingApiModel>>> GetByID(Guid id)
+        [ProducesResponseType(200, Type = typeof(PublicBookingApiModel))]
+        public async Task<ActionResult<IEnumerable<PublicBookingApiModel>>> GetByID(Guid id)
         {
             var data = await this.queryService
                 .GetByIdAsync(id)
                 .ConfigureAwait(false);
 
-            return this.Ok(this.mapper.Map<BookingApiModel>(data));
+            return this.Ok(this.mapper.Map<PublicBookingApiModel>(data));
         }
 
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(BookingApiModel))]
+        [ProducesResponseType(201, Type = typeof(PublicBookingApiModel))]
         public async Task<ActionResult<Guid>> Create(NewBookingApiModel newBooking)
         {
             var entity = await this.commandService
@@ -65,7 +65,7 @@ namespace StudioManager.Controllers
             return this.CreatedAtAction(
                 nameof(this.GetByID), 
                 new { id = entity.Id },
-                this.mapper.Map<BookingApiModel>(entity));
+                this.mapper.Map<PublicBookingApiModel>(entity));
         }
     }
 }

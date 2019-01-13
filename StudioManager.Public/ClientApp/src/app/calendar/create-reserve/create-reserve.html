@@ -36,6 +36,7 @@
     <mat-form-field>
         <input matInput
                required
+               type="tel"
                name="phoneNumber"
                [(ngModel)]="newReserve.phoneNumber"
                [placeholder]="'PhoneNumberPlaceholder' | translate">
@@ -43,9 +44,25 @@
 
     <mat-form-field>
         <input matInput
-               name="comment"
-               [(ngModel)]="newReserve.comment"
-               [placeholder]="'Reserve.Comment' | translate">
+               type="text"
+               name="firstName"
+               [(ngModel)]="newReserve.firstName"
+               [placeholder]="'Reserve.FirstName' | translate">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+               type="text"
+               name="lastName"
+               [(ngModel)]="newReserve.lastName"
+               [placeholder]="'Reserve.LastName' | translate">
+    </mat-form-field>
+
+    <mat-form-field>
+        <textarea matInput
+                  name="comment"
+                  [(ngModel)]="newReserve.comment"
+                  [placeholder]="'Reserve.Comment' | translate"></textarea>
     </mat-form-field>
 </form>
 <div mat-dialog-actions>

@@ -18,6 +18,8 @@ export class NewReserve {
     to: string;
     contactPhone: string;
     description: string;
+    firstName: string;
+    lastName: string;
 }
 
 @Injectable()

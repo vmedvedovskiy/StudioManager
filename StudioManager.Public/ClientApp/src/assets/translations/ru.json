@@ -8,7 +8,9 @@
         "EndDate": "Конец",
         "Comment": "Комментарий",
         "Confirm": "Отправить заявку",
-        "Title": "Забронировать время"
+        "Title": "Забронировать время",
+        "FirstName": "Имя",
+        "LastName": "Фамилия"
     },
     "PhoneNumberPlaceholder": "Укажите ваш номер телефона",
     "ThankYou": {

@@ -42,6 +42,8 @@ class CalendarEvent {
 })
 export class SelectedDayComponent implements OnDestroy {
 
+    private readonly datesGranularity = 'week';
+
     private events: CalendarEvent[] = [];
     private rawEvents: BookingData[];
     private viewDate: moment.Moment;
@@ -144,7 +146,9 @@ export class SelectedDayComponent implements OnDestroy {
                     description: _.comment,
                     to: _.end.local().format(),
                     contactPhone: _.phoneNumber,
-                    from: _.start.local().format()
+                    from: _.start.local().format(),
+                    firstName: _.firstName,
+                    lastName: _.lastName
                 }))
         });
 
@@ -156,22 +160,26 @@ export class SelectedDayComponent implements OnDestroy {
         });
 
     private getCurrentWeek() {
-        return moment().local().valueOf();
+        return moment()
+            .local()
+            .valueOf();
     }
 
     private getPreviousWeek(viewDate: moment.Moment) {
-        return moment(viewDate).subtract(1, 'week').valueOf();
+        return moment(viewDate)
+            .subtract(1, this.datesGranularity)
+            .valueOf();
     }
 
     private getNextWeek(viewDate: moment.Moment) {
-        return moment(viewDate).add(1, 'week').valueOf();
+        return moment(viewDate)
+            .add(1, this.datesGranularity)
+            .valueOf();
     }
 
     private canNavigateBack(viewDate: moment.Moment) {
-        const cat = moment(viewDate)
-            .subtract(1, 'week')
-            .isSameOrAfter(moment().local(), 'week');
-
-        return cat;
+        return moment(viewDate)
+            .subtract(1, this.datesGranularity)
+            .isSameOrAfter(moment().local(), this.datesGranularity);
     }
 }

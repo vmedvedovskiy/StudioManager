@@ -11,6 +11,8 @@ export class NewReserveModel {
     end: moment.Moment;
     phoneNumber: string;
     comment: string;
+    firstName: string;
+    lastName: string;
 
     constructor(init: Partial<NewReserveModel>) {
         Object.assign(this, init);
@@ -22,6 +24,8 @@ class NewReserveViewModel {
     end: any;
     phoneNumber: string;
     comment: string;
+    firstName: string;
+    lastName: string;
 }
 
 @Component({
@@ -63,7 +67,9 @@ export class CreateReserveComponent {
                 startTime.asHours()),
             end: moment(this.data).set(
                 'hour',
-                endTime.asHours())
+                endTime.asHours()),
+            firstName: this.newReserve.firstName,
+            lastName: this.newReserve.lastName
         });
 
         this.dialogService.open(ThankYouComponent);

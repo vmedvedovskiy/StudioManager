@@ -2,7 +2,7 @@
 
 namespace StudioManager.Contract
 {
-    public class BookingApiModel
+    public class PublicBookingApiModel
     {
         public Guid Id { get; set; }
 

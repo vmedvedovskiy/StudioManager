@@ -17,5 +17,9 @@ namespace StudioManager.Database
         public string ContactPhone { get; set; }
 
         public decimal Price { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
     }
 }
