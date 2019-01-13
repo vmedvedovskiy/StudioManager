@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using StudioManager.Contract;
 using StudioManager.Services;
@@ -16,15 +18,18 @@ namespace StudioManager.Controllers
         private readonly IBookingQueryService queryService;
         private readonly IBookingCommandService commandService;
         private readonly IMapper mapper;
+        private readonly IValidator<NewBookingApiModel> validator;
 
         public BookingController(
             IBookingQueryService queryService, 
             IBookingCommandService commandService, 
-            IMapper mapper)
+            IMapper mapper,
+            IValidator<NewBookingApiModel> validator)
         {
             this.queryService = queryService;
             this.commandService = commandService;
             this.mapper = mapper;
+            this.validator = validator;
         }
 
         [HttpGet]
@@ -58,6 +63,15 @@ namespace StudioManager.Controllers
         [ProducesResponseType(201, Type = typeof(PublicBookingApiModel))]
         public async Task<ActionResult<Guid>> Create(NewBookingApiModel newBooking)
         {
+            var validationResult = this.validator.Validate(newBooking);
+
+            if(validationResult.Errors.Any())
+            {
+                validationResult.AddToModelState(this.ModelState, prefix: null);
+
+                return this.BadRequest(this.ModelState);
+            }
+
             var entity = await this.commandService
                 .AddAsync(this.mapper.Map<NewBookingModel>(newBooking))
                 .ConfigureAwait(false);

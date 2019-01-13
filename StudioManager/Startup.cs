@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StudioManager.Contract;
 using StudioManager.Database;
 using StudioManager.Services;
 using StudioManager.Services.Impl;
+using StudioManager.Validators;
 
 namespace StudioManager
 {
@@ -41,6 +44,7 @@ namespace StudioManager
             services
                 .AddTransient<IBookingQueryService, BookingQueryService>()
                 .AddTransient<IBookingCommandService, BookingCommandService>()
+                .AddTransient<IValidator<NewBookingApiModel>, NewBookingValidator>()
                 .AddSingleton(mappingConfig.CreateMapper());
         }
 
