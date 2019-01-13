@@ -40,10 +40,7 @@ moment.updateLocale('ru', {
             path: '',
             redirectTo: '/calendar/' + new Date().getTime(),
             pathMatch: 'full'
-        }],
-        {
-            onSameUrlNavigation: 'reload'
-        }),
+        }]),
         BrowserAnimationsModule,
         TranslateModule.forRoot({
             loader: {

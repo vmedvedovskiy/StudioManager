@@ -38,8 +38,7 @@ export function momentAdapterFactory() {
                     component: SelectedDayComponent,
                     resolve: {
                         events: SelectedDayResolver
-                    },
-                    runGuardsAndResolvers: 'always'
+                    }
                 }]
             }]),
         CalendarLibModule.forRoot({

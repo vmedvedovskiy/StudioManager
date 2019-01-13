@@ -168,8 +168,10 @@ export class SelectedDayComponent implements OnDestroy {
     }
 
     private canNavigateBack(viewDate: moment.Moment) {
-        return moment()
-            .local()
-            .diff(viewDate, 'week') === 0;
+        const cat = moment(viewDate)
+            .subtract(1, 'week')
+            .isSameOrAfter(moment().local(), 'week');
+
+        return cat;
     }
 }
