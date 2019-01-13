@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CalendarDateFormatter } from 'angular-calendar';
+import { ActivatedRoute } from '@angular/router';
+import { CalendarDateFormatter, CalendarView } from 'angular-calendar';
 
 import { DateFormatter } from '../date.formatter';
 import { BookingData, CalendarApi, NewReserve } from '../calendar.api'
@@ -28,19 +28,18 @@ class Intermediary {
     templateUrl: './selected-day.component.html',
     styleUrls: ['./selected-day.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: CalendarDateFormatter,
-            useClass: DateFormatter
-        }
-    ],
+    providers: [{
+        provide: CalendarDateFormatter,
+        useClass: DateFormatter
+    }],
     encapsulation: ViewEncapsulation.None
 })
 export class SelectedDayComponent implements OnDestroy {
 
     private events: CalendarEvent[] = [];
     private rawEvents: BookingData[];
-    private viewDate: moment.Moment;
+    private viewDate = moment().local();
+    private CalendarView = CalendarView;
 
     private refreshView = new Subject<any>();
 
@@ -48,12 +47,8 @@ export class SelectedDayComponent implements OnDestroy {
 
     constructor(
         private readonly route: ActivatedRoute,
-        private readonly router: Router,
         private readonly dialogService: MatDialog,
         private readonly api: CalendarApi) {
-
-        this.viewDate = moment(+route.snapshot.paramMap.get('day'))
-            .local();
 
         this.route.data.subscribe((data: {
             events: BookingData[]
@@ -89,10 +84,6 @@ export class SelectedDayComponent implements OnDestroy {
                 this.postEventToApi,
                 this.addCreatedEvent)
             .subscribe();
-    }
-
-    back() {
-        return this.router.navigate(['../']);
     }
 
     private prepareViewEvents() {

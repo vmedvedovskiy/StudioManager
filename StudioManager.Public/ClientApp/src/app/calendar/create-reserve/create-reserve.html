@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{ 'CreateReserveTitle' | translate }}: {{ data | date: 'longDate' }}</h1>
+<h1 mat-dialog-title>{{ 'Reserve.Title' | translate }}: {{ data | date: 'longDate' }}</h1>
 <form class="create-reserve"
       mat-dialog-content>
     <mat-form-field>
@@ -7,7 +7,7 @@
                name="start"
                theme="dp-material"
                [(ngModel)]="newReserve.start"
-               [placeholder]="'ReserveStartDate' | translate"
+               [placeholder]="'Reserve.StartDate' | translate"
                mode="time"
                [maxTime]="newReserve.end"
                [dpDayPicker]="{
@@ -23,7 +23,7 @@
                theme="dp-material"
                name="end"
                [(ngModel)]="newReserve.end"
-               [placeholder]="'ReserveEndDate' | translate"
+               [placeholder]="'Reserve.EndDate' | translate"
                [maxTime]="workDayEnd"
                mode="time"
                [dpDayPicker]="{
@@ -45,14 +45,17 @@
         <input matInput
                name="comment"
                [(ngModel)]="newReserve.comment"
-               [placeholder]="'ReserveComment' | translate">
+               [placeholder]="'Reserve.Comment' | translate">
     </mat-form-field>
 </form>
 <div mat-dialog-actions>
-    <button
-            mat-button
-            (click)="onReserveConfirm()"
-            cdkFocusInitial>{{ 'ConfirmReserve' | translate }}</button>
     <button mat-button
-            mat-dialog-close>{{ 'Back' | translate }}</button>
+            (click)="onReserveConfirm()"
+            cdkFocusInitial>
+        {{ 'Reserve.Confirm' | translate }}
+    </button>
+    <button mat-button
+            mat-dialog-close>
+        {{ 'Back' | translate }}
+    </button>
 </div>

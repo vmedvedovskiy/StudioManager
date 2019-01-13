@@ -27,13 +27,11 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\calendar\calendar-root.component.ts" />
-    <None Remove="ClientApp\src\app\calendar\calendar.resolver.ts" />
     <None Remove="ClientApp\src\app\calendar\selected-day\selected-day.resolver.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\calendar\calendar-root.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\calendar\calendar.resolver.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\calendar\selected-day\selected-day.resolver.ts" />
   </ItemGroup>
 

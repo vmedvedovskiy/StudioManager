@@ -1,7 +1,21 @@
-<mat-button-toggle (click)="back()">
-    <i class="fa fa-chevron-left"></i>
-    {{ viewDate.toDate() | date: 'LLLL' }}
-</mat-button-toggle>
+<mat-button-toggle-group>
+    <mat-button-toggle mwlCalendarPreviousView
+                       [view]="CalendarView.Week"
+                       [(viewDate)]="viewDate">
+        <i class="fa fa-chevron-left"></i>
+    </mat-button-toggle>
+    <mat-button-toggle mwlCalendarToday
+                       [(viewDate)]="viewDate">
+        {{ 'Today' | translate }}
+    </mat-button-toggle>
+    <mat-button-toggle class="btn btn-primary"
+                       mwlCalendarNextView
+                       [view]="CalendarView.Week"
+                       [(viewDate)]="viewDate">
+        <i class="fa fa-chevron-right"></i>
+    </mat-button-toggle>
+</mat-button-toggle-group>
+
 
 <mwl-calendar-week-view [viewDate]="viewDate"
                         locale="ru"
