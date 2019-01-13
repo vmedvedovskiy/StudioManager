@@ -1,6 +1,7 @@
-<mat-button-toggle-group class="calendar-nav">
+<div class="calendar-nav">
     <button
-            mat-raised-button 
+            class="calendar-nav-button"
+            mat-stroked-button 
             mwlCalendarPreviousView
             [view]="CalendarView.Week"
             [(viewDate)]="viewDate"
@@ -9,22 +10,23 @@
         <i class="fa fa-chevron-left"></i>
     </button>
     <button
-            mat-raised-button color="primary"
+            class="calendar-nav-button"
+            mat-stroked-button color="primary"
             mwlCalendarToday
             [(viewDate)]="viewDate"
             [routerLink]="['../', getCurrentWeek()]">
         {{ 'Today' | translate }}
     </button>
     <button
-            mat-raised-button color="primary"
+            class="calendar-nav-button"
+            mat-stroked-button
             mwlCalendarNextView
             [view]="CalendarView.Week"
             [(viewDate)]="viewDate"
             [routerLink]="['../', getNextWeek(viewDate)]">
         <i class="fa fa-chevron-right"></i>
     </button>
-</mat-button-toggle-group>
-
+</div>
 
 <mwl-calendar-week-view [viewDate]="viewDate"
                         locale="ru"

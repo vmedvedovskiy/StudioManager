@@ -7,7 +7,7 @@ import {
     MOMENT
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 
 import * as moment from 'moment';
@@ -45,7 +45,7 @@ export function momentAdapterFactory() {
             provide: DateAdapter,
             useFactory: momentAdapterFactory
         }),
-        MatButtonToggleModule,
+        MatButtonModule,
         CommonModule,
         TranslateModule,
         CreateReserveModule
