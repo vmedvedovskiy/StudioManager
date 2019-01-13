@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CalendarDateFormatter, CalendarView } from 'angular-calendar';
+import { TranslateService } from '@ngx-translate/core';
 
 import { DateFormatter } from '../date.formatter';
 import { BookingData, CalendarApi, NewReserve } from '../calendar.api'
@@ -25,7 +26,8 @@ class Intermediary {
 class CalendarEvent {
     constructor(
         public start: Date,
-        public end: Date) {
+        public end: Date,
+        public title: string) {
     }
 }
 
@@ -48,6 +50,7 @@ export class SelectedDayComponent implements OnDestroy {
     private rawEvents: BookingData[];
     private viewDate: moment.Moment;
     private CalendarView = CalendarView;
+    private reservedText: string;
 
     private refreshView = new Subject<any>();
 
@@ -56,8 +59,10 @@ export class SelectedDayComponent implements OnDestroy {
     constructor(
         private readonly route: ActivatedRoute,
         private readonly dialogService: MatDialog,
-        private readonly api: CalendarApi) {
+        private readonly api: CalendarApi,
+        private readonly translations: TranslateService) {
 
+        this.reservedText = this.translations.instant('Reserved');
         this.viewDate = moment(+route.snapshot.paramMap.get('day'))
             .local();
 
@@ -117,7 +122,7 @@ export class SelectedDayComponent implements OnDestroy {
                     from: moment.Moment,
                     to: moment.Moment
                 }>())
-                .map(this.toCalendarEvent);
+                .map(this.toCalendarEvent.bind(this));
 
         this.refreshView.next();
     }
@@ -132,7 +137,8 @@ export class SelectedDayComponent implements OnDestroy {
     private toCalendarEvent(_: Intermediary): CalendarEvent {
         return new CalendarEvent(
             _.from.toDate(),
-            _.to.toDate());
+            _.to.toDate(),
+            this.reservedText);
     }
 
     private hasAddedReserve

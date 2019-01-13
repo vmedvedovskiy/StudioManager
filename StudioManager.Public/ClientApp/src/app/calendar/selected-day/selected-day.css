@@ -5,3 +5,8 @@
 .calendar-nav {
     margin: 10px 0;
 }
+
+.cal-event-title {
+    padding-left: 5px;
+    font-size: 1.3em;
+}
