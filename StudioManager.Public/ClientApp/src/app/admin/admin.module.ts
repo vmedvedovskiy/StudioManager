@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 
+import { CalendarModule } from './calendar/calendar.module';
+
 @NgModule({
     declarations: [
         AdminComponent
@@ -12,6 +14,7 @@ import { AdminComponent } from './admin.component';
     imports: [
         HttpClientModule,
         FormsModule,
+        CalendarModule,
         RouterModule.forChild([{
             path: '',
             component: AdminComponent

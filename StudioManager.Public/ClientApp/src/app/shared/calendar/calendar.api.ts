@@ -7,6 +7,8 @@ export class BookingData {
     id: string;
     from: string;
     to: string;
+    firstName: string | null;
+    lastName: string | null;
 }
 
 export class NewReserve {

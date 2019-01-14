@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CalendarDateFormatter, CalendarView } from 'angular-calendar';
 import { TranslateService } from '@ngx-translate/core';
 
-import { DateFormatter } from '../date.formatter';
+import { DateFormatter } from 'app/shared/calendar/date.formatter';
 import { BookingData, CalendarApi, NewReserve } from 'app/shared/calendar/calendar.api'
 import { CreateReserveComponent, NewReserveModel }
     from '../create-reserve/create-reserve.component';

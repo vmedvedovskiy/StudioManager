@@ -1,0 +1,76 @@
+<h1>{{ 'Reserve.Title' | translate }}: {{ data | date: 'longDate' }}</h1>
+<form class="create-reserve">
+    <mat-form-field>
+        <input matInput
+               required
+               name="start"
+               theme="dp-material"
+               [(ngModel)]="newReserve.start"
+               [placeholder]="'Reserve.StartDate' | translate"
+               mode="time"
+               [maxTime]="newReserve.end"
+               [dpDayPicker]="{
+                        'minutesInterval': 30,
+                        'showTwentyFourHours': true,
+                        'allowMultiSelect': false
+                    }">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+               required
+               theme="dp-material"
+               name="end"
+               [(ngModel)]="newReserve.end"
+               [placeholder]="'Reserve.EndDate' | translate"
+               [maxTime]="workDayEnd"
+               mode="time"
+               [dpDayPicker]="{
+                        'minutesInterval': 30,
+                        'showTwentyFourHours': true,
+                        'allowMultiSelect': false
+                    }">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+               required
+               type="tel"
+               name="phoneNumber"
+               [(ngModel)]="newReserve.phoneNumber"
+               [placeholder]="'PhoneNumberPlaceholder' | translate">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+               type="text"
+               name="firstName"
+               [(ngModel)]="newReserve.firstName"
+               [placeholder]="'Reserve.FirstName' | translate">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput
+               type="text"
+               name="lastName"
+               [(ngModel)]="newReserve.lastName"
+               [placeholder]="'Reserve.LastName' | translate">
+    </mat-form-field>
+
+    <mat-form-field>
+        <textarea matInput
+                  name="comment"
+                  [(ngModel)]="newReserve.comment"
+                  [placeholder]="'Reserve.Comment' | translate"></textarea>
+    </mat-form-field>
+</form>
+<div>
+    <button mat-button
+            (click)="onReserveConfirm()"
+            cdkFocusInitial>
+        {{ 'Reserve.Confirm' | translate }}
+    </button>
+    <button (click)="back()">
+        {{ 'Back' | translate }}
+    </button>
+</div>

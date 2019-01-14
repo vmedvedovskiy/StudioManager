@@ -1,0 +1,8 @@
+.create-reserve {
+    display: flex;
+    flex-direction: column;
+}
+
+    .create-reserve > * {
+        width: 100%;
+    }

@@ -21,17 +21,26 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\admin\calendar\selected-day\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\admin\calendar\selected-day\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\src\app\admin\calendar\selected-day\**" />
+    <None Remove="ClientApp\src\app\admin\calendar\selected-day\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\admin\calendar\calendar-root.component.ts" />
     <None Remove="ClientApp\src\app\public\calendar\calendar-root.component.ts" />
     <None Remove="ClientApp\src\app\public\calendar\selected-day\selected-day.resolver.ts" />
     <None Remove="ClientApp\src\app\shared\locale.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\admin\calendar\calendar-root.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\public\calendar\calendar-root.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\public\calendar\selected-day\selected-day.resolver.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\locale.ts" />
