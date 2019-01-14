@@ -18,8 +18,12 @@ namespace StudioManager.Services
 
         public decimal Price { get; set; }
 
+        public decimal PaidAmount { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public bool Paid => this.PaidAmount == this.Price;
     }
 }

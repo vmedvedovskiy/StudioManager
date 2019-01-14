@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
-import { CalendarApi, BookingData } from '../calendar.api';
+import { CalendarApi, BookingData } from 'app/shared/calendar/calendar.api';
 
 @Injectable()
 export class SelectedDayResolver implements Resolve<BookingData[]> {

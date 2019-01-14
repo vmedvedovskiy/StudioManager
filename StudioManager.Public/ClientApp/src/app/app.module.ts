@@ -12,7 +12,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import * as moment from 'moment';
 
 import { AppComponent } from './app.component';
-import { CalendarModule as AppCalendarModule } from './calendar/calendar.module';
+import { CalendarModule as AppCalendarModule } from './public/calendar/calendar.module';
+
+import { locale } from './shared/locale';
 
 registerLocaleData(localeRu)
 
@@ -20,7 +22,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/translations/');
 }
 
-moment.updateLocale('ru', {
+moment.updateLocale(locale, {
     week: {
         dow: 1,
         doy: 0
@@ -40,6 +42,9 @@ moment.updateLocale('ru', {
             path: '',
             redirectTo: '/calendar/' + new Date().getTime(),
             pathMatch: 'full'
+        }, {
+            path: 'admin',
+            loadChildren: './admin/admin.module#AdminModule'
         }]),
         BrowserAnimationsModule,
         TranslateModule.forRoot({
@@ -52,7 +57,7 @@ moment.updateLocale('ru', {
     ],
     providers: [{
         provide: LOCALE_ID,
-        useValue: 'ru'
+        useValue: locale
     }],
     bootstrap: [AppComponent]
 })

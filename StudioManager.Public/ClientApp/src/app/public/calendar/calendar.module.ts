@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import * as moment from 'moment';
 
 import { CalendarRootComponent } from './calendar-root.component';
-import { CalendarApi } from './calendar.api';
+import { CalendarApi } from 'app/shared/calendar/calendar.api';
 
 import { CreateReserveModule } from './create-reserve/create-reserve.module';
 import { SelectedDayComponent } from './selected-day/selected-day.component';

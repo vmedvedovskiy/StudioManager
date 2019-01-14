@@ -4,12 +4,13 @@ import { CalendarDateFormatter, CalendarView } from 'angular-calendar';
 import { TranslateService } from '@ngx-translate/core';
 
 import { DateFormatter } from '../date.formatter';
-import { BookingData, CalendarApi, NewReserve } from '../calendar.api'
+import { BookingData, CalendarApi, NewReserve } from 'app/shared/calendar/calendar.api'
 import { CreateReserveComponent, NewReserveModel }
     from '../create-reserve/create-reserve.component';
 import { MatDialog } from '@angular/material';
 
 import * as moment from 'moment';
+import { locale } from 'app/shared/locale';
 
 import { flatMap, tap, filter } from 'rxjs/operators'
 import { Subscription, Subject } from 'rxjs';
@@ -50,6 +51,7 @@ export class SelectedDayComponent implements OnDestroy {
     private rawEvents: BookingData[];
     private viewDate: moment.Moment;
     private CalendarView = CalendarView;
+    private locale = locale;
     private reservedText: string;
 
     private refreshView = new Subject<any>();

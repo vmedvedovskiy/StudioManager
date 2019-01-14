@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudioManager.Database
 {
@@ -17,6 +18,9 @@ namespace StudioManager.Database
         public string ContactPhone { get; set; }
 
         public decimal Price { get; set; }
+
+        [NotMapped]
+        public decimal PaidAmount { get; set; }
 
         public string FirstName { get; set; }
 
