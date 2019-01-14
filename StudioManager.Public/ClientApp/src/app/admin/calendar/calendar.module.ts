@@ -30,21 +30,21 @@ export function momentAdapterFactory() {
         CalendarRootComponent
     ],
     imports: [
-        RouterModule.forChild([
+        RouterModule.forChild([{
+            path: ':selectedDate',
+            component: CalendarRootComponent,
+            children: [{
+                path: '',
+                component: CalendarComponent,
+                resolve: {
+                    events: CalendarResolver
+                }
+            },
             {
-                path: 'calendar/:selectedDate',
-                component: CalendarRootComponent,
-                children: [{
-                    path: '',
-                    component: CalendarComponent,
-                    resolve: {
-                        events: CalendarResolver
-                    }
-                }, {
-                    path: 'create-reserve',
-                    component: CreateReserveComponent,
-                }]
-            }]),
+                path: 'create-reserve',
+                component: CreateReserveComponent,
+            }]
+        }]),
         CalendarLibModule.forRoot({
             provide: DateAdapter,
             useFactory: momentAdapterFactory

@@ -86,6 +86,8 @@ export class CreateReserveComponent {
     }
 
     back() {
-        return this.router.navigate(['../']);
+        return this.router.navigate(['../'], {
+            relativeTo: this.route
+        });
     }
 }

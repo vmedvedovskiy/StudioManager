@@ -18,6 +18,9 @@ import { CalendarModule } from './calendar/calendar.module';
         RouterModule.forChild([{
             path: '',
             component: AdminComponent
+        }, {
+            path: 'calendar',
+            loadChildren: './calendar/calendar.module#CalendarModule'
         }])
     ],
     providers: [],
